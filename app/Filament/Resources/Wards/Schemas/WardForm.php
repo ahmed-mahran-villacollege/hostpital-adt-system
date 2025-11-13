@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Wards\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,7 +14,11 @@ class WardForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('type')
+                Select::make('type')
+                    ->options([
+                        'Male' => 'Male',
+                        'Female' => 'Female',
+                    ])
                     ->required(),
                 TextInput::make('capacity')
                     ->required()
