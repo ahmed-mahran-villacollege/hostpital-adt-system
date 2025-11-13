@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->enum('type', ['Consultant', 'Junior'])->default('Junior');
-            $table->enum('Grade', [1, 2, 3, 4, 5])->default(1);
+            $table->enum('grade', [1, 2, 3, 4, 5])->default(1);
             $table->timestamps();
         });
     }

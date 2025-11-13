@@ -18,10 +18,12 @@ class DoctorFactory extends Factory
     {
         $type = $this->faker->randomElement(['Consultant', 'Junior']);
 
+        $name = $this->faker->firstName . ' ' . $this->faker->lastName;
+
         return [
-            'name' => $this->faker->name(),
+            'name' => $name,
             'type' => $type,
-            'Grade' => $type === 'Consultant' ? 5 : $this->faker->randomElement([1, 2, 3, 4]),
+            'grade' => $type === 'Consultant' ? 5 : $this->faker->randomElement([1, 2, 3, 4]),
             'created_at' => now(),
             'updated_at' => now(),
         ];
