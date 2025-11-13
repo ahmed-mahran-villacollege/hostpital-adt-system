@@ -14,10 +14,9 @@ class WardSeeder extends Seeder
         'Maternity Ward',
         'Pediatric Ward',
         'Psychiatric Ward',
-        'Urology Ward',
         'Orthopedic Ward',
         'Surgical Ward',
-        'Cardiac Ward',
+        'Cardiology Ward',
         'Neurology Ward',
     ];
 
