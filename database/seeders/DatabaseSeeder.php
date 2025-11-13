@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             WardSeeder::class,
             PatientSeeder::class,
             TeamSeeder::class,
+            TeamMemberSeeder::class,
         ]);
     }
 }
