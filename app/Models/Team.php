@@ -16,8 +16,8 @@ class Team extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function teamMembers()
+    public function doctors()
     {
-        return $this->hasMany(Doctor::class);
+        return $this->belongsToMany(Doctor::class, 'team_members');
     }
 }

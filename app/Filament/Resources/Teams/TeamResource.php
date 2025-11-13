@@ -6,6 +6,7 @@ use App\Filament\Resources\Teams\Pages\CreateTeam;
 use App\Filament\Resources\Teams\Pages\EditTeam;
 use App\Filament\Resources\Teams\Pages\ListTeams;
 use App\Filament\Resources\Teams\Pages\ViewTeam;
+use App\Filament\Resources\Teams\RelationManagers\DoctorsRelationManager;
 use App\Filament\Resources\Teams\Schemas\TeamForm;
 use App\Filament\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Resources\Teams\Tables\TeamsTable;
@@ -42,7 +43,7 @@ class TeamResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            DoctorsRelationManager::class,
         ];
     }
 
