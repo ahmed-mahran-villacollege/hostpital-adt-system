@@ -13,10 +13,8 @@ class TeamInfolist
             ->components([
                 TextEntry::make('name'),
                 TextEntry::make('code'),
-                TextEntry::make('consultant_id')
-                    ->numeric(),
-                TextEntry::make('junior_id')
-                    ->numeric(),
+                TextEntry::make('consultant.name')
+                    ->label('Consultant'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

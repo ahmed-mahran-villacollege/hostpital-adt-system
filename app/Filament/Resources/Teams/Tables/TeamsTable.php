@@ -20,9 +20,6 @@ class TeamsTable
                 TextColumn::make('code')
                     ->searchable(),
                 TextColumn::make('consultant.name')
-                    ->formatStateUsing(function ($state) {
-                        return 'Dr. ' . $state;
-                    })
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

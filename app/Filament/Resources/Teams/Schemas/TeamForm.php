@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Teams\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -15,12 +16,8 @@ class TeamForm
                     ->required(),
                 TextInput::make('code')
                     ->required(),
-                TextInput::make('consultant_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('junior_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('consultant_id')
+                    ->relationship('consultant', 'name'),
             ]);
     }
 }
