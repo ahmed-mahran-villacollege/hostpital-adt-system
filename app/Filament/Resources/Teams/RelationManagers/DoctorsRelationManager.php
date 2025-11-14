@@ -77,19 +77,19 @@ class DoctorsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
-                AttachAction::make(),
+                AttachAction::make()
+                ->label('Add')
+                ->color('primary'),
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-                DetachAction::make(),
-                DeleteAction::make(),
+                DetachAction::make()
+                ->label('Remove'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DetachBulkAction::make(),
-                    DeleteBulkAction::make(),
+                    DetachBulkAction::make()
+                    ->label('Remove selected'),
                 ]),
             ]);
     }
