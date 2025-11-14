@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admission;
+use App\Models\Patient;
 use App\Models\Team;
 use App\Models\Ward;
-use App\Models\Patient;
-use App\Models\Admission;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AdmissionSeeder extends Seeder
 {
@@ -18,10 +17,13 @@ class AdmissionSeeder extends Seeder
     {
         foreach (Patient::all() as $patient) {
             Admission::create([
-                "patient_id" => $patient->id,
-                "ward_id" => Ward::inRandomOrder()->first()->id,
-                "team_id" => Team::inRandomOrder()->first()->id,
-                "admitted_at" => now()->subDays(random_int(0, 20))->toDateTimeString(),
+                'patient_id' => $patient->id,
+                'ward_id' => Ward::inRandomOrder()->first()->id,
+                'team_id' => Team::inRandomOrder()->first()->id,
+                'admitted_at' => now()
+                    ->subDays(random_int(0, 20))
+                    ->subSeconds(random_int(0, 86400))
+                    ->toDateTimeString(),
             ]);
         }
     }
