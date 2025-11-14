@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['Consultant', 'Junior'])->default('Junior');
+            $table->enum('rank', ['Consultant', 'Junior'])->default('Junior');
             $table->enum('grade', [1, 2, 3, 4, 5])->default(1);
             $table->timestamps();
         });

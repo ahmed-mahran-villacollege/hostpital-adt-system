@@ -16,14 +16,14 @@ class DoctorFactory extends Factory
      */
     public function definition(): array
     {
-        $type = $this->faker->randomElement(['Consultant', 'Junior']);
+        $rank = $this->faker->randomElement(['Consultant', 'Junior']);
 
-        $name = $this->faker->firstName . ' ' . $this->faker->lastName;
+        $name = 'Dr. ' . $this->faker->firstName . ' ' . $this->faker->lastName;
 
         return [
             'name' => $name,
-            'type' => $type,
-            'grade' => $type === 'Consultant' ? 5 : $this->faker->randomElement([1, 2, 3, 4]),
+            'rank' => $rank,
+            'grade' => $rank === 'Consultant' ? 5 : $this->faker->randomElement([1, 2, 3, 4]),
             'created_at' => now(),
             'updated_at' => now(),
         ];

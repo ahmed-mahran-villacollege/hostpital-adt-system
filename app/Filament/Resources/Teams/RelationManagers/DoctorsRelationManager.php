@@ -28,7 +28,7 @@ class DoctorsRelationManager extends RelationManager
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('type')
+                TextInput::make('rank')
                     ->required()
                     ->default('Junior'),
                 TextInput::make('grade')
@@ -42,7 +42,7 @@ class DoctorsRelationManager extends RelationManager
         return $schema
             ->components([
                 TextEntry::make('name'),
-                TextEntry::make('type'),
+                TextEntry::make('rank'),
                 TextEntry::make('grade'),
                 TextEntry::make('created_at')
                     ->dateTime()
@@ -60,7 +60,7 @@ class DoctorsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('type')
+                TextColumn::make('rank')
                     ->searchable(),
                 TextColumn::make('grade')
                     ->searchable(),

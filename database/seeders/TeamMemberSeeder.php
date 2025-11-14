@@ -20,7 +20,7 @@ class TeamMemberSeeder extends Seeder
                 TeamMember::create([
                     'team_id' => $team->id,
                     'doctor_id' => Doctor::factory()->create([
-                        'type' => 'Junior',
+                        'rank' => 'Junior',
                         'grade' => random_int(1, 4),
                     ])->id,
                 ]);
@@ -28,7 +28,7 @@ class TeamMemberSeeder extends Seeder
             TeamMember::create([
                 'team_id' => $team->id,
                 'doctor_id' => Doctor::factory()->create([
-                    'type' => 'Junior',
+                    'rank' => 'Junior',
                     'grade' => 1,
                 ])->id,
             ]);
