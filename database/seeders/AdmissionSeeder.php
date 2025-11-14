@@ -21,7 +21,7 @@ class AdmissionSeeder extends Seeder
                 'ward_id' => Ward::inRandomOrder()->first()->id,
                 'team_id' => Team::inRandomOrder()->first()->id,
                 'admitted_at' => now()
-                    ->subDays(random_int(0, 20))
+                    ->subDays(random_int(5, 20))
                     ->subSeconds(random_int(0, 86400))
                     ->toDateTimeString(),
             ]);

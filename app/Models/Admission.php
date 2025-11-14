@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Admission extends Model
 {
+    protected $casts = [
+        'admitted_at' => 'date',
+    ];
+
     /**
      * Get the admitted patient.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function patient(): BelongsTo
     {
@@ -19,8 +21,6 @@ class Admission extends Model
 
     /**
      * Get the admission ward.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function ward(): BelongsTo
     {
@@ -29,8 +29,6 @@ class Admission extends Model
 
     /**
      * Get the team assigned for the admission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function team(): BelongsTo
     {

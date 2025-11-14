@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             TeamSeeder::class,
             TeamMemberSeeder::class,
             AdmissionSeeder::class,
+            TreatedBySeeder::class,
         ]);
     }
 }
