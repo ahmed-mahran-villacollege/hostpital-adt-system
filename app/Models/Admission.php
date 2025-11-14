@@ -13,6 +13,16 @@ class Admission extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleted(function (Admission $admission) {
+            $admission->patient()->delete();
+        });
+    }
+
+    /**
      * Get the admitted patient.
      */
     public function patient(): BelongsTo
