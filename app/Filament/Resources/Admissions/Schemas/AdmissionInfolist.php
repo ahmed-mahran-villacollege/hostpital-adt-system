@@ -19,12 +19,8 @@ class AdmissionInfolist
                     ->label('Team'),
                 TextEntry::make('admitted_at')
                     ->dateTime(),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                TextEntry::make('team.consultant.name')
+                    ->label('Responsible Consultant'),
             ]);
     }
 }

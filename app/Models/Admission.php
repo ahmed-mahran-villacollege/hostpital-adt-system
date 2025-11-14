@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Admission extends Model
 {
     protected $casts = [
-        'admitted_at' => 'date',
+        'admitted_at' => 'datetime',
     ];
 
     /**
@@ -38,8 +38,6 @@ class Admission extends Model
 
     /**
      * Get all of the treatedBy details for the admission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function treatedBy(): HasMany
     {
