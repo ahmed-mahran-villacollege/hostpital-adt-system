@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Patient extends Model
 {
@@ -21,5 +22,15 @@ class Patient extends Model
     public function admission(): HasOne
     {
         return $this->hasOne(Admission::class);
+    }
+
+    /**
+     * Get all of the treatedBy details for the patient.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function treatedBy(): HasManyThrough
+    {
+        return $this->hasManyThrough(TreatedBy::class, Admission::class);
     }
 }

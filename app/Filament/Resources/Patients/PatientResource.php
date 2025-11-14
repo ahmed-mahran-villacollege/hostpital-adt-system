@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Patients;
 
+use App\Filament\Resources\Admissions\RelationManagers\TreatedByRelationManager;
 use App\Filament\Resources\Patients\Pages\CreatePatient;
 use App\Filament\Resources\Patients\Pages\EditPatient;
 use App\Filament\Resources\Patients\Pages\ListPatients;
@@ -13,7 +14,6 @@ use App\Models\Patient;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class PatientResource extends Resource
@@ -42,7 +42,7 @@ class PatientResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TreatedByRelationManager::class,
         ];
     }
 
