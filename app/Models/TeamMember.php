@@ -9,4 +9,14 @@ class TeamMember extends Model
 {
     /** @use HasFactory<\Database\Factories\TeamMemberFactory> */
     use HasFactory;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
 }

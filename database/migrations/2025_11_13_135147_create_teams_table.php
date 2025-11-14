@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('code');
             
             $table->foreignId('consultant_id')->constrained('doctors');
-            $table->foreignId('junior_id')->constrained('doctors');
             $table->timestamps();
         });
     }

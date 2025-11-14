@@ -25,6 +25,13 @@ class TeamMemberSeeder extends Seeder
                     ])->id,
                 ]);
             }
+            TeamMember::create([
+                'team_id' => $team->id,
+                'doctor_id' => Doctor::factory()->create([
+                    'type' => 'Junior',
+                    'grade' => 1,
+                ])->id,
+            ]);
         }
     }
 }

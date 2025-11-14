@@ -11,11 +11,6 @@ class Team extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function junior()
-    {
-        return $this->belongsTo(Doctor::class);
-    }
-
     public function doctors()
     {
         return $this->belongsToMany(Doctor::class, 'team_members');

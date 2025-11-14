@@ -31,7 +31,6 @@ class TeamSeeder extends Seeder
                 'name' => $name,
                 'code' => "DT-" . random_int(100, 999),
                 'consultant_id' => Doctor::factory()->create(['type' => 'Consultant', 'grade' => 5])->id,
-                'junior_id' => Doctor::factory()->create(['type' => 'Junior', 'grade' => 1])->id,
             ]);
         }
     }
