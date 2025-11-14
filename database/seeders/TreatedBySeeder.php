@@ -14,14 +14,16 @@ class TreatedBySeeder extends Seeder
     public function run(): void
     {
         foreach (Admission::all() as $admission) {
-            TreatedBy::create([
-                'admission_id' => $admission->id,
-                'doctor_id' => $admission->team->teamMembers->random()->doctor_id,
-                'treated_at' => $admission->admitted_at
-                    ->addDays(random_int(0, 5))
-                    ->addSeconds(random_int(0, 86400))
-                    ->toDateTimeString(),
-            ]);
+            foreach (range(1, random_int(1,5)) as $index) {
+                TreatedBy::create([
+                    'admission_id' => $admission->id,
+                    'doctor_id' => $admission->team->teamMembers->random()->doctor_id,
+                    'treated_at' => $admission->admitted_at
+                        ->addDays(random_int(0, 5))
+                        ->addSeconds(random_int(0, 86400))
+                        ->toDateTimeString(),
+                ]);
+            }
         }
     }
 }
