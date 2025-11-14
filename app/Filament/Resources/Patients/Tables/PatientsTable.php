@@ -19,11 +19,22 @@ class PatientsTable
                     ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('date_of_birth')
-                    ->date()
-                    ->sortable(),
                 TextColumn::make('sex')
+                    ->badge()
+                    ->color(function ($state) {
+                        return match ($state) {
+                            'Male' => 'primary',
+                            'Female' => 'danger',
+                            default => 'gray',
+                        };
+                    })
                     ->searchable(),
+                TextColumn::make('date_of_birth')
+                    ->label('Age')
+                    ->formatStateUsing(function ($state) {
+                        return now()->format('Y') - $state->format('Y');
+                    })
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

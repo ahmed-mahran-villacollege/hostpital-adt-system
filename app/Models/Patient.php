@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Patient extends Model
 {
@@ -14,10 +14,12 @@ class Patient extends Model
 
     protected $fillable = [];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+    ];
+
     /**
      * Get the admission of the patient.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function admission(): HasOne
     {
@@ -26,8 +28,6 @@ class Patient extends Model
 
     /**
      * Get all of the treatedBy details for the patient.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function treatedBy(): HasManyThrough
     {
