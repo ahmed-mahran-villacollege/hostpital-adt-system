@@ -6,6 +6,7 @@ use App\Filament\Resources\Admissions\Pages\CreateAdmission;
 use App\Filament\Resources\Admissions\Pages\EditAdmission;
 use App\Filament\Resources\Admissions\Pages\ListAdmissions;
 use App\Filament\Resources\Admissions\Pages\ViewAdmission;
+use App\Filament\Resources\Admissions\RelationManagers\TreatedByRelationManager;
 use App\Filament\Resources\Admissions\Schemas\AdmissionForm;
 use App\Filament\Resources\Admissions\Schemas\AdmissionInfolist;
 use App\Filament\Resources\Admissions\Tables\AdmissionsTable;
@@ -13,7 +14,6 @@ use App\Models\Admission;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class AdmissionResource extends Resource
@@ -40,7 +40,7 @@ class AdmissionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TreatedByRelationManager::class,
         ];
     }
 
