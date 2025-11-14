@@ -12,8 +12,7 @@ class PatientInfolist
         return $schema
             ->components([
                 TextEntry::make('hospital_number'),
-                TextEntry::make('first_name'),
-                TextEntry::make('last_name'),
+                TextEntry::make('name'),
                 TextEntry::make('date_of_birth')
                     ->date(),
                 TextEntry::make('sex'),

@@ -14,9 +14,7 @@ class PatientForm
             ->components([
                 TextInput::make('hospital_number')
                     ->required(),
-                TextInput::make('first_name')
-                    ->required(),
-                TextInput::make('last_name')
+                TextInput::make('name')
                     ->required(),
                 DatePicker::make('date_of_birth')
                     ->required(),

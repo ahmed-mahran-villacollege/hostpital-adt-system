@@ -11,7 +11,7 @@ class AdmissionInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('patient.id')
+                TextEntry::make('patient.name')
                     ->label('Patient'),
                 TextEntry::make('ward.name')
                     ->label('Ward'),

@@ -13,11 +13,6 @@ class Patient extends Model
 
     protected $fillable = [];
 
-    public function getNameAttribute()
-    {
-        return $this->first_name . " " . $this->last_name;
-    }
-
     /**
      * Get the admission of the patient.
      *

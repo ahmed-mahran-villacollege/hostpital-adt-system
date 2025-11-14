@@ -13,7 +13,7 @@ class AdmissionForm
         return $schema
             ->components([
                 Select::make('patient_id')
-                    ->relationship('patient', 'id')
+                    ->relationship('patient', 'name')
                     ->required(),
                 Select::make('ward_id')
                     ->relationship('ward', 'name')

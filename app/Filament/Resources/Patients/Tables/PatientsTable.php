@@ -17,9 +17,7 @@ class PatientsTable
             ->columns([
                 TextColumn::make('hospital_number')
                     ->searchable(),
-                TextColumn::make('first_name')
-                    ->searchable(),
-                TextColumn::make('last_name')
+                TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('date_of_birth')
                     ->date()

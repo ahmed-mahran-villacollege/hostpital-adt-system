@@ -15,7 +15,7 @@ class AdmissionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('patient.id')
+                TextColumn::make('patient.name')
                     ->searchable(),
                 TextColumn::make('ward.name')
                     ->searchable(),
