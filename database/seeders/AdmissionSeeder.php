@@ -18,7 +18,7 @@ class AdmissionSeeder extends Seeder
         foreach (Patient::all() as $patient) {
             Admission::create([
                 'patient_id' => $patient->id,
-                'ward_id' => Ward::inRandomOrder()->first()->id,
+                'ward_id' => Ward::whereType($patient->sex)->inRandomOrder()->first()->id,
                 'team_id' => Team::inRandomOrder()->first()->id,
                 'admitted_at' => now()
                     ->subDays(random_int(5, 20))
