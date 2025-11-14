@@ -6,6 +6,7 @@ use App\Filament\Resources\Wards\Pages\CreateWard;
 use App\Filament\Resources\Wards\Pages\EditWard;
 use App\Filament\Resources\Wards\Pages\ListWards;
 use App\Filament\Resources\Wards\Pages\ViewWard;
+use App\Filament\Resources\Wards\RelationManagers\PatientsRelationManager;
 use App\Filament\Resources\Wards\Schemas\WardForm;
 use App\Filament\Resources\Wards\Schemas\WardInfolist;
 use App\Filament\Resources\Wards\Tables\WardsTable;
@@ -13,7 +14,6 @@ use App\Models\Ward;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class WardResource extends Resource
@@ -42,7 +42,7 @@ class WardResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PatientsRelationManager::class,
         ];
     }
 
