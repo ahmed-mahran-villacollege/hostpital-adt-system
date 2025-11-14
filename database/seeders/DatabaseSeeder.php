@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             TeamSeeder::class,
             TeamMemberSeeder::class,
+            AdmissionSeeder::class,
         ]);
     }
 }
