@@ -23,6 +23,14 @@ class WardInfolist
                     }),
                 TextEntry::make('capacity')
                     ->numeric(),
+                TextEntry::make('occupancy')
+                    ->label('Occupancy')
+                    ->state(fn ($record) => sprintf(
+                        '%d / %d beds occupied (Free: %d)',
+                        $record->occupiedBeds(),
+                        $record->capacity ?? 0,
+                        $record->freeBeds(),
+                    )),
             ]);
     }
 }
