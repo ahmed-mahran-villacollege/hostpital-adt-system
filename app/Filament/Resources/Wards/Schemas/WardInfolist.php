@@ -12,7 +12,15 @@ class WardInfolist
         return $schema
             ->components([
                 TextEntry::make('name'),
-                TextEntry::make('type'),
+                TextEntry::make('type')
+                    ->badge()
+                    ->color(function ($state) {
+                        return match ($state) {
+                            'Male' => 'primary',
+                            'Female' => 'danger',
+                            default => 'gray',
+                        };
+                    }),
                 TextEntry::make('capacity')
                     ->numeric(),
                 TextEntry::make('created_at')
