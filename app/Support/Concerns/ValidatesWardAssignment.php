@@ -3,6 +3,7 @@
 namespace App\Support\Concerns;
 
 use App\Models\Ward;
+use Filament\Notifications\Notification;
 use Illuminate\Validation\ValidationException;
 
 trait ValidatesWardAssignment
@@ -13,37 +14,55 @@ trait ValidatesWardAssignment
     protected function validateWardAssignment(
         ?int $wardId,
         ?string $patientSex,
-        string $attribute = 'ward_id',
+        string $wardAttribute = 'ward_id',
         bool $ignoreCapacity = false,
+        ?string $sexAttribute = 'patient.sex',
     ): Ward {
         $ward = Ward::query()
             ->withCount('admissions')
             ->find($wardId);
 
         if (! $ward) {
-            throw ValidationException::withMessages([
-                $attribute => 'Select a valid ward.',
-            ]);
+            $this->wardValidationFailure('Select a valid ward.', $wardAttribute);
         }
 
         if (blank($patientSex)) {
-            throw ValidationException::withMessages([
-                $attribute => 'Please confirm the patient sex before assigning a ward.',
-            ]);
+            $this->wardValidationFailure(
+                'Please confirm the patient sex before assigning a ward.',
+                $sexAttribute ?? $wardAttribute,
+            );
         }
 
         if ($ward->type !== $patientSex) {
-            throw ValidationException::withMessages([
-                $attribute => 'The ward type must match the patient sex.',
-            ]);
+            $this->wardValidationFailure(
+                'The ward type must match with the patient.',
+                $wardAttribute,
+            );
         }
 
         if (! $ignoreCapacity && ! $ward->hasFreeBeds()) {
-            throw ValidationException::withMessages([
-                $attribute => 'The selected ward has no free beds available.',
-            ]);
+            $this->wardValidationFailure(
+                'The selected ward has no free beds available.',
+                $wardAttribute,
+            );
         }
 
         return $ward;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    protected function wardValidationFailure(string $message, string $attribute): never
+    {
+        Notification::make()
+            ->title('Ward assignment blocked')
+            ->body($message)
+            ->danger()
+            ->send();
+
+        throw ValidationException::withMessages([
+            $attribute => $message,
+        ]);
     }
 }
