@@ -7,7 +7,6 @@ use App\Models\Patient;
 use App\Support\Concerns\ValidatesWardAssignment;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\ValidationException;
 
 class CreateAdmission extends CreateRecord
 {

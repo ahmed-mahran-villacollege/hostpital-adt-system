@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Admissions\Pages;
 
 use App\Filament\Resources\Admissions\AdmissionResource;
+use App\Support\Concerns\ValidatesWardAssignment;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
@@ -10,6 +11,8 @@ use Illuminate\Support\Arr;
 
 class EditAdmission extends EditRecord
 {
+    use ValidatesWardAssignment;
+
     protected static string $resource = AdmissionResource::class;
 
     protected function getHeaderActions(): array
@@ -39,9 +42,21 @@ class EditAdmission extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $patientData = Arr::pull($data, 'patient');
+        $patientData = Arr::pull($data, 'patient') ?? [];
 
-        if ($patientData) {
+        $patientSex = $patientData['sex']
+            ?? $this->record->patient?->sex;
+
+        $wardId = $data['ward_id'] ?? $this->record->ward_id;
+
+        $this->validateWardAssignment(
+            $wardId,
+            $patientSex,
+            'ward_id',
+            $this->record->ward_id === $wardId,
+        );
+
+        if (! empty($patientData)) {
             $this->record->patient()->update($patientData);
         }
 
