@@ -23,12 +23,6 @@ class WardInfolist
                     }),
                 TextEntry::make('capacity')
                     ->numeric(),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
             ]);
     }
 }
