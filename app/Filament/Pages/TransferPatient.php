@@ -42,6 +42,8 @@ class TransferPatient extends Page
 
     protected ?array $wardOptions = null;
 
+    protected ?array $preloadedAdmissionOptions = null;
+
     public function mount(): void
     {
         $this->form->fill();
@@ -64,6 +66,8 @@ class TransferPatient extends Page
                     ->schema([
                         Select::make('admission_id')
                             ->label('Patient')
+                            ->options(fn (): array => $this->getPreloadedAdmissionOptions())
+                            ->preload()
                             ->placeholder('Search admitted patients...')
                             ->searchable()
                             ->live()
@@ -308,5 +312,14 @@ class TransferPatient extends Page
             ->orderBy('name')
             ->pluck('name', 'id')
             ->all();
+    }
+
+    protected function getPreloadedAdmissionOptions(): array
+    {
+        if ($this->preloadedAdmissionOptions !== null) {
+            return $this->preloadedAdmissionOptions;
+        }
+
+        return $this->preloadedAdmissionOptions = $this->searchAdmissions('');
     }
 }
