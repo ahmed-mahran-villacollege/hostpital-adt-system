@@ -5,6 +5,7 @@
                 tag="a"
                 href="{{ $this->getTransferFormUrl() }}"
                 icon="heroicon-o-arrow-right-on-rectangle"
+                color="warning"
                 wire:navigate
             >
                 Transfer Patient
