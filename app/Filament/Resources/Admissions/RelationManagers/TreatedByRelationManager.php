@@ -37,7 +37,10 @@ class TreatedByRelationManager extends RelationManager
         return $schema
             ->components([
                 TextEntry::make('doctor.name')
-                    ->label('Doctor'),
+                    ->label('Doctor')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->doctor->rank === 'Consultant' ? $state : $state.' (Gr. '.$record->doctor->grade.')';
+                    }),
                 TextEntry::make('treated_at')
                     ->dateTime(),
             ]);
