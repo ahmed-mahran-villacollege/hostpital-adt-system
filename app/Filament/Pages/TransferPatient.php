@@ -127,7 +127,7 @@ class TransferPatient extends Page
             Action::make('transfer')
                 ->label('Transfer patient')
                 ->icon('heroicon-o-arrow-right-on-rectangle')
-                ->color('primary')
+                ->color('warning')
                 ->requiresConfirmation()
                 ->action(fn () => $this->transfer())
                 ->modalHeading('Confirm transfer')

@@ -71,7 +71,7 @@ class RecordTreatedBy extends Page
                             ->preload()
                             ->required()
                             ->disabled(fn (callable $get): bool => blank($get('admission_id')))
-                            ->helperText("Only doctors from the patient's team are listed."),
+                            ->helperText("Only doctors from the assigned team are listed."),
                         Placeholder::make('team_info')
                             ->label('Assigned team:')
                             ->content(fn (callable $get): string => $this->getTeamDisplay($get('admission_id'))),
@@ -119,7 +119,7 @@ class RecordTreatedBy extends Page
             Action::make('record')
                 ->label('Create record')
                 ->icon('heroicon-o-clipboard-document-check')
-                ->color('primary')
+                ->color('success')
                 ->requiresConfirmation()
                 ->action(fn () => $this->recordTreatment())
                 ->modalHeading('Confirm treatment record')
@@ -150,7 +150,7 @@ class RecordTreatedBy extends Page
         if (! $this->doctorBelongsToAdmissionTeam($admission, $doctorId)) {
             Notification::make()
                 ->title('Doctor not on team')
-                ->body("Only doctors from the patient's team can be recorded.")
+                ->body("Only doctors from the assigned team can be recorded.")
                 ->danger()
                 ->send();
 
@@ -217,9 +217,8 @@ class RecordTreatedBy extends Page
 
         return trim(
             collect([
-                $patient ? '#'.$patient->hospital_number : null,
                 $patient?->name,
-                $ward ? '('.$ward->name.')' : null,
+                $patient ? '('.$patient->hospital_number.')' : null,
             ])->filter()->implode(' '),
         );
     }
@@ -266,8 +265,9 @@ class RecordTreatedBy extends Page
 
         return $admission->team
             ->doctors()
-            ->orderBy('name')
-            ->pluck('name', 'id')
+            ->select(['doctors.id', 'doctors.name'])
+            ->orderBy('doctors.name')
+            ->pluck('doctors.name', 'doctors.id')
             ->all();
     }
 
