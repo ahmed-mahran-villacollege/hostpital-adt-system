@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Admissions\Schemas;
 
+use App\Models\Patient;
 use App\Support\WardCapacityFormatter;
+use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
@@ -22,7 +24,25 @@ class AdmissionForm
                     ->schema([
                         TextInput::make('patient.hospital_number')
                             ->label('Hospital number')
-                            ->required(),
+                            ->required()
+                            ->rule(function (TextInput $component): Closure {
+                                return function (string $attribute, $value, Closure $fail) use ($component): void {
+                                    if (blank($value)) {
+                                        return;
+                                    }
+
+                                    $query = Patient::query()
+                                        ->where('hospital_number', $value);
+
+                                    if ($patientId = $component->getRecord()?->patient?->getKey()) {
+                                        $query->whereKeyNot($patientId);
+                                    }
+
+                                    if ($query->exists()) {
+                                        $fail('This hospital number already exists.');
+                                    }
+                                };
+                            }),
                         TextInput::make('patient.name')
                             ->required(),
                         DatePicker::make('patient.date_of_birth')
