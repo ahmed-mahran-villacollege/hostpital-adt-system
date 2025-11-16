@@ -264,11 +264,20 @@ class RecordTreatedBy extends Page
             return [];
         }
 
-        return $admission->team
+        $options = $admission->team
             ->doctors()
             ->select(['doctors.id', 'doctors.name'])
             ->orderBy('doctors.name')
-            ->pluck('doctors.name', 'doctors.id')
+            ->pluck('doctors.name', 'doctors.id');
+
+        $consultant = $admission->team->consultant;
+
+        if ($consultant && ! $options->has($consultant->getKey())) {
+            $options->put($consultant->getKey(), $consultant->name);
+        }
+
+        return $options
+            ->sort()
             ->all();
     }
 
