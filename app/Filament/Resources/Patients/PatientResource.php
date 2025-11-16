@@ -50,7 +50,6 @@ class PatientResource extends Resource
     {
         return [
             'index' => ListPatients::route('/'),
-            'create' => CreatePatient::route('/create'),
             'view' => ViewPatient::route('/{record}'),
             'edit' => EditPatient::route('/{record}/edit'),
         ];
