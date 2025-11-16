@@ -35,15 +35,11 @@ class DoctorsRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->rank === 'Consultant' ? $state : $state.' (Gr. '.$record->grade.')';
+                    }),
                 TextEntry::make('rank'),
-                TextEntry::make('grade'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
             ]);
     }
 
