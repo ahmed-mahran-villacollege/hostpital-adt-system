@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Team extends Model
 {
+    public function getTitleAttribute()
+    {
+        return 'Team: '.$this->name;
+    }
+
     public function consultant()
     {
         return $this->belongsTo(Doctor::class);
