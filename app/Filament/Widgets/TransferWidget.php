@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\Admissions\AdmissionResource;
+use App\Filament\Pages\TransferPatient;
 use Filament\Widgets\Widget;
 
 class TransferWidget extends Widget
@@ -15,6 +15,6 @@ class TransferWidget extends Widget
 
     public function getTransferFormUrl(): string
     {
-        return AdmissionResource::getUrl();
+        return TransferPatient::getUrl();
     }
 }
