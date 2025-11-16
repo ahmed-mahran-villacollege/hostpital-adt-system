@@ -6,7 +6,6 @@ use App\Models\Doctor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
 use Filament\Schemas\Schema;
 
 class TeamForm
@@ -20,6 +19,7 @@ class TeamForm
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('code')
+                    ->unique()
                     ->required(),
                 Select::make('consultant_id')
                     ->relationship('consultant', 'name')
@@ -34,7 +34,7 @@ class TeamForm
                             ->options(fn (): array => self::getDoctorOptions())
                             ->searchable()
                             ->preload()
-                            ->required()
+                            ->required(),
                     ])
                     ->createItemButtonLabel('Add doctor'),
             ]);
