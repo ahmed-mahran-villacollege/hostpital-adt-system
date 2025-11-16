@@ -309,6 +309,13 @@ class RecordTreatedBy extends Page
             return false;
         }
 
+        if (
+            $admission->team->consultant &&
+            $admission->team->consultant->getKey() === $doctorId
+        ) {
+            return true;
+        }
+
         return $admission->team
             ->doctors()
             ->whereKey($doctorId)
