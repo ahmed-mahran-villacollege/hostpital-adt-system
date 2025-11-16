@@ -20,7 +20,7 @@ class EditAdmission extends EditRecord
         return [
             ViewAction::make(),
             DeleteAction::make()
-            ->label('Discharge'),
+                ->label('Discharge'),
         ];
     }
 
@@ -43,17 +43,16 @@ class EditAdmission extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $patientData = Arr::pull($data, 'patient') ?? [];
+        $patientSex = $patientData['sex'] ?? $this->record->patient?->sex;
+        $wardId = (int) ($data['ward_id'] ?? $this->record->ward_id);
 
-        $patientSex = $patientData['sex']
-            ?? $this->record->patient?->sex;
-
-        $wardId = $data['ward_id'] ?? $this->record->ward_id;
+        $originalWardId = (int) $this->record->getOriginal('ward_id');
 
         $this->validateWardAssignment(
             $wardId,
             $patientSex,
             'ward_id',
-            $this->record->ward_id === $wardId,
+            $originalWardId === $wardId,
         );
 
         if (! empty($patientData)) {
