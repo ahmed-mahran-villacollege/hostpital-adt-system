@@ -13,6 +13,11 @@ class AdmissionInfolist
             ->components([
                 TextEntry::make('patient.name')
                     ->label('Patient'),
+                TextEntry::make('patient.date_of_birth')
+                    ->label('Age')
+                    ->formatStateUsing(function ($state) {
+                        return now()->format('Y') - $state->format('Y').' years (DOB: '.$state->format('M d, Y').')';
+                    }),
                 TextEntry::make('ward.name')
                     ->label('Ward'),
                 TextEntry::make('team.name')
