@@ -34,7 +34,10 @@ class PatientInfolist
                 Section::make('')
                     ->schema([
                         TextEntry::make('admission.team.name')
-                            ->label('Assigned Team'),
+                            ->label('Assigned Team')
+                            ->formatStateUsing(function ($state, $record) {
+                                return $state.' ('.$record->admission->team->code.')';
+                            }),
                         TextEntry::make('admission.team.consultant.name')
                             ->label('Responsible Consultant'),
                     ])->columns(2),

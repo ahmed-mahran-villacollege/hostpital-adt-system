@@ -49,6 +49,9 @@ class TreatedByRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('doctor.name')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->doctor->rank === 'Consultant' ? $state : $state.' (Grade '.$record->doctor->grade.')';
+                    })
                     ->searchable(),
                 TextColumn::make('treated_at')
                     ->dateTime()

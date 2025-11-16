@@ -16,7 +16,10 @@ class AdmissionInfolist
                 TextEntry::make('ward.name')
                     ->label('Ward'),
                 TextEntry::make('team.name')
-                    ->label('Team'),
+                    ->label('Team')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $state.' ('.$record->team->code.')';
+                    }),
                 TextEntry::make('admitted_at')
                     ->dateTime(),
                 TextEntry::make('team.consultant.name')
