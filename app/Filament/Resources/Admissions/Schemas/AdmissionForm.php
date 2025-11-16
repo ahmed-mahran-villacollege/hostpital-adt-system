@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Admissions\Schemas;
 
-use Filament\Schemas\Schema;
+use App\Support\WardCapacityFormatter;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Schemas\Schema;
 
 class AdmissionForm
 {
@@ -37,12 +39,18 @@ class AdmissionForm
                     ->schema([
                         Select::make('ward_id')
                             ->relationship('ward', 'name')
+                            ->live()
                             ->required(),
                         Select::make('team_id')
                             ->relationship('team', 'name')
                             ->required(),
                         DateTimePicker::make('admitted_at')
                             ->required()
+                            ->default(now())
+                            ->columnSpanFull(),
+                        Placeholder::make('ward_occupancy')
+                            ->label('Ward occupancy:')
+                            ->content(fn (callable $get) => WardCapacityFormatter::forWardId($get('ward_id')))
                             ->columnSpanFull(),
                     ]),
             ]);
