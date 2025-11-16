@@ -6,6 +6,7 @@ use App\Filament\Resources\Admissions\AdmissionResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Arr;
 
 class EditAdmission extends EditRecord
 {
@@ -17,5 +18,32 @@ class EditAdmission extends EditRecord
             ViewAction::make(),
             DeleteAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $patient = $this->record->patient;
+
+        $data['patient'] = $patient
+            ? Arr::only($patient->toArray(), [
+                'hospital_number',
+                'name',
+                'date_of_birth',
+                'sex',
+            ])
+            : [];
+
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $patientData = Arr::pull($data, 'patient');
+
+        if ($patientData) {
+            $this->record->patient()->update($patientData);
+        }
+
+        return $data;
     }
 }
