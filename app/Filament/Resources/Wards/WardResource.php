@@ -12,6 +12,7 @@ use App\Filament\Resources\Wards\Schemas\WardInfolist;
 use App\Filament\Resources\Wards\Tables\WardsTable;
 use App\Models\Ward;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -23,6 +24,8 @@ class WardResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = 'lineawesome-bed-solid';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Hospital Management';
 
     public static function form(Schema $schema): Schema
     {

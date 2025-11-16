@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Admission;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -14,6 +15,7 @@ use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class DischargePatient extends Page
 {
@@ -22,6 +24,10 @@ class DischargePatient extends Page
     protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $slug = 'discharge';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Care Actions';
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-minus';
 
     public ?array $data = [];
 

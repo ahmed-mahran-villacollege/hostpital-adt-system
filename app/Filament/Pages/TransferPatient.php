@@ -6,6 +6,7 @@ use App\Models\Admission;
 use App\Models\Ward;
 use App\Support\Concerns\ValidatesWardAssignment;
 use App\Support\WardCapacityFormatter;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -17,6 +18,7 @@ use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class TransferPatient extends Page
 {
@@ -27,6 +29,10 @@ class TransferPatient extends Page
     protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $slug = 'transfer';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Care Actions';
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-on-rectangle';
 
     public ?array $data = [];
 

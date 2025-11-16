@@ -2,16 +2,21 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\DischargePatient;
+use App\Filament\Pages\RecordTreatedBy;
+use App\Filament\Pages\TransferPatient;
+use App\Filament\Resources\Admissions\AdmissionResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -39,6 +44,41 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Care Actions')
+                    ->collapsed(false),
+                NavigationGroup::make()
+                    ->label('Care Management'),
+                NavigationGroup::make()
+                    ->label('Hospital Management'),
+            ])
+            ->navigationItems([
+                NavigationItem::make('New Admission')
+                    ->group('Care Actions')
+                    ->icon('heroicon-o-user-plus')
+                    ->url(fn (): string => AdmissionResource::getUrl('create'))
+                    ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.resources.admissions.create'))
+                    ->sort(1),
+                NavigationItem::make('Discharge Patient')
+                    ->group('Care Actions')
+                    ->icon('heroicon-o-user-minus')
+                    ->url(fn (): string => DischargePatient::getUrl())
+                    ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.discharge'))
+                    ->sort(2),
+                NavigationItem::make('Transfer Patient')
+                    ->group('Care Actions')
+                    ->icon('heroicon-o-arrow-right-on-rectangle')
+                    ->url(fn (): string => TransferPatient::getUrl())
+                    ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.transfer'))
+                    ->sort(3),
+                NavigationItem::make('Record Treated By')
+                    ->group('Care Actions')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->url(fn (): string => RecordTreatedBy::getUrl())
+                    ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.treated-by'))
+                    ->sort(4),
             ])
             ->middleware([
                 EncryptCookies::class,

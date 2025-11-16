@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Admission;
 use App\Models\Doctor;
 use App\Models\TreatedBy;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -16,6 +17,7 @@ use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class RecordTreatedBy extends Page
 {
@@ -24,6 +26,10 @@ class RecordTreatedBy extends Page
     protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $slug = 'treated-by';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Care Actions';
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     public ?array $data = [];
 

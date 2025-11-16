@@ -12,6 +12,7 @@ use App\Filament\Resources\Patients\Schemas\PatientInfolist;
 use App\Filament\Resources\Patients\Tables\PatientsTable;
 use App\Models\Patient;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -21,6 +22,8 @@ class PatientResource extends Resource
     protected static ?string $model = Patient::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'lineawesome-user-injured-solid';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Care Management';
 
     protected static ?string $recordTitleAttribute = 'title';
 

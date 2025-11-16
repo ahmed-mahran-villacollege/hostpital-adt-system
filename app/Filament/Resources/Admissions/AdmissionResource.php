@@ -12,6 +12,7 @@ use App\Filament\Resources\Admissions\Schemas\AdmissionInfolist;
 use App\Filament\Resources\Admissions\Tables\AdmissionsTable;
 use App\Models\Admission;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -21,6 +22,8 @@ class AdmissionResource extends Resource
     protected static ?string $model = Admission::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'healthicons-o-insurance-card';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Care Management';
 
     public static function form(Schema $schema): Schema
     {
