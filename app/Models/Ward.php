@@ -30,10 +30,10 @@ class Ward extends Model
         return $this->hasManyThrough(
             Patient::class,
             Admission::class,
-            'patient_id',
-            'id',
-            'id',
             'ward_id',
+            'id',
+            'id',
+            'patient_id',
         );
     }
 }
