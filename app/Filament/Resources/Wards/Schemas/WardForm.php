@@ -22,7 +22,9 @@ class WardForm
                     ->required(),
                 TextInput::make('capacity')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->integer()
+                    ->minValue(4),
             ]);
     }
 }
