@@ -54,7 +54,8 @@ class PatientsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->label('Discharge selected'),
                 ]),
             ]);
     }
