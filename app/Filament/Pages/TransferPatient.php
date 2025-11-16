@@ -105,7 +105,6 @@ class TransferPatient extends Page
             EmbeddedSchema::make('form'),
         ])
             ->id('transfer-form')
-            ->livewireSubmitHandler('transfer')
             ->footer([
                 $this->getFormActionsContentComponent(),
             ]);
@@ -126,10 +125,11 @@ class TransferPatient extends Page
     {
         return [
             Action::make('transfer')
+                ->label('Transfer patient')
                 ->icon('heroicon-o-arrow-right-on-rectangle')
                 ->color('primary')
-                ->submit('transfer')
                 ->requiresConfirmation()
+                ->action(fn () => $this->transfer())
                 ->modalHeading('Confirm transfer')
                 ->modalDescription(fn (): string => $this->getConfirmationMessage())
                 ->disabled(fn (): bool => blank($this->data['admission_id'] ?? null) || blank($this->data['destination_ward_id'] ?? null)),
