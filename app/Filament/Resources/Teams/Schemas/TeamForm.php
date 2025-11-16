@@ -45,7 +45,10 @@ class TeamForm
     {
         return Doctor::query()
             ->orderBy('name')
-            ->pluck('name', 'id')
+            ->get()
+            ->mapWithKeys(fn (Doctor $doctor): array => [
+                $doctor->id => sprintf('%s (Gr. %d)', $doctor->name, $doctor->grade),
+            ])
             ->all();
     }
 
