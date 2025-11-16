@@ -78,8 +78,11 @@ class DoctorsRelationManager extends RelationManager
             ])
             ->headerActions([
                 AttachAction::make()
-                ->label('Add')
-                ->color('primary'),
+                    ->label('Add')
+                    ->modalHeading('Add Doctor')
+                    ->modalSubmitActionLabel('Add')
+                    ->disableAttachAnother()
+                    ->preloadRecordSelect(),
             ])
             ->recordActions([
                 ViewAction::make(),
