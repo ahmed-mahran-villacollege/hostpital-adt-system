@@ -50,7 +50,7 @@ class TreatedByRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('doctor.name')
                     ->formatStateUsing(function ($state, $record) {
-                        return $record->doctor->rank === 'Consultant' ? $state : $state.' (Grade '.$record->doctor->grade.')';
+                        return $record->doctor->rank === 'Consultant' ? $state : $state.' (Gr. '.$record->doctor->grade.')';
                     })
                     ->searchable(),
                 TextColumn::make('treated_at')

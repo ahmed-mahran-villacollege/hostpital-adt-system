@@ -3,13 +3,7 @@
 namespace App\Filament\Resources\Teams\RelationManagers;
 
 use Filament\Actions\AttachAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\DetachAction;
-use Filament\Actions\DetachBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -59,10 +53,9 @@ class DoctorsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('rank')
-                    ->searchable(),
-                TextColumn::make('grade')
+                    ->formatStateUsing(function (string $state, $record) {
+                        return $state.' (Gr. '.$record->grade.')';
+                    })
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -87,13 +80,7 @@ class DoctorsRelationManager extends RelationManager
             ->recordActions([
                 ViewAction::make(),
                 DetachAction::make()
-                ->label('Remove'),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DetachBulkAction::make()
-                    ->label('Remove selected'),
-                ]),
+                    ->label('Remove'),
             ]);
     }
 }
