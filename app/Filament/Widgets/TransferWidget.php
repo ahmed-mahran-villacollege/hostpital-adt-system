@@ -9,7 +9,7 @@ class TransferWidget extends Widget
 {
     protected static bool $isLazy = false;
 
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
 
     protected string $view = 'filament.widgets.transfer-widget';
 
