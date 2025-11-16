@@ -9,7 +9,7 @@ class AdmissionWidget extends Widget
 {
     protected static bool $isLazy = false;
 
-    protected static ?int $sort = -5;
+    protected static ?int $sort = 1;
 
     protected string $view = 'filament.widgets.admission-widget';
 
