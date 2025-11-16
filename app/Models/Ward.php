@@ -36,4 +36,29 @@ class Ward extends Model
             'patient_id',
         );
     }
+
+    public function occupiedBeds(): int
+    {
+        $count = $this->getAttribute('admissions_count');
+
+        if ($count !== null) {
+            return (int) $count;
+        }
+
+        if ($this->relationLoaded('admissions')) {
+            return $this->admissions->count();
+        }
+
+        return $this->admissions()->count();
+    }
+
+    public function freeBeds(): int
+    {
+        return max(($this->capacity ?? 0) - $this->occupiedBeds(), 0);
+    }
+
+    public function hasFreeBeds(): bool
+    {
+        return $this->freeBeds() > 0;
+    }
 }
