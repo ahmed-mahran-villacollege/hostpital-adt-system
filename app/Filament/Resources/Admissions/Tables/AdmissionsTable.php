@@ -34,7 +34,8 @@ class AdmissionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->label('Discahrge selected'),
                 ]),
             ]);
     }
