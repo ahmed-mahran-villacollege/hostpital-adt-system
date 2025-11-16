@@ -18,6 +18,11 @@ class Patient extends Model
         'date_of_birth' => 'date',
     ];
 
+    public function getTitleAttribute()
+    {
+        return 'Patient: '.$this->name;
+    }
+
     /**
      * Get the admission of the patient.
      */

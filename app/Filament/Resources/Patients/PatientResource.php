@@ -22,7 +22,7 @@ class PatientResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'lineawesome-user-injured-solid';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Schema $schema): Schema
     {
