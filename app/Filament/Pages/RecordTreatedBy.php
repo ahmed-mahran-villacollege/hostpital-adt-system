@@ -68,6 +68,7 @@ class RecordTreatedBy extends Page
                             ->placeholder('Select treating doctor')
                             ->options(fn (callable $get): array => $this->getDoctorOptions((int) $get('admission_id')))
                             ->searchable()
+                            ->live()
                             ->preload()
                             ->required()
                             ->disabled(fn (callable $get): bool => blank($get('admission_id')))
