@@ -14,6 +14,8 @@ class EditTeam extends EditRecord
 
     protected static string $resource = TeamResource::class;
 
+    protected array $teamMembersInput = [];
+
     protected function getHeaderActions(): array
     {
         return [
@@ -22,10 +24,46 @@ class EditTeam extends EditRecord
         ];
     }
 
-    protected function mutateFormDataBeforeSave(array $data): array
+    protected function beforeValidate(): void
     {
-        $this->validateTeamMembers($data['teamMembers'] ?? []);
+        $state = $this->form->getState();
+
+        $this->teamMembersInput = $state['teamMembers'] ?? [];
+
+        $this->validateTeamMembers($this->teamMembersInput);
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['teamMembers'] = $this->record->teamMembers()
+            ->get()
+            ->map(fn ($member): array => ['doctor_id' => $member->doctor_id])
+            ->all();
 
         return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        unset($data['teamMembers']);
+
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $members = collect($this->teamMembersInput)
+            ->filter(fn ($item) => filled($item['doctor_id'] ?? null))
+            ->map(fn ($item): array => ['doctor_id' => $item['doctor_id']])
+            ->values()
+            ->all();
+
+        $this->record->teamMembers()->delete();
+
+        if (! empty($members)) {
+            $this->record->teamMembers()->createMany($members);
+        }
+
+        $this->teamMembersInput = [];
     }
 }
