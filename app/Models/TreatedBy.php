@@ -9,6 +9,12 @@ class TreatedBy extends Model
 {
     protected $table = 'treated_by';
 
+    protected $fillable = [
+        'admission_id',
+        'doctor_id',
+        'treated_at',
+    ];
+
     /**
      * Get the doctor who treated.
      *
@@ -17,5 +23,10 @@ class TreatedBy extends Model
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function admission(): BelongsTo
+    {
+        return $this->belongsTo(Admission::class);
     }
 }
