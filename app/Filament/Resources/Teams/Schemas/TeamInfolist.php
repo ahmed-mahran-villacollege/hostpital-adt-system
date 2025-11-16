@@ -15,12 +15,6 @@ class TeamInfolist
                 TextEntry::make('code'),
                 TextEntry::make('consultant.name')
                     ->label('Consultant'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
             ]);
     }
 }

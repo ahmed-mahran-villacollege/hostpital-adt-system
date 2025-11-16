@@ -10,6 +10,7 @@ use App\Filament\Resources\Teams\RelationManagers\DoctorsRelationManager;
 use App\Filament\Resources\Teams\Schemas\TeamForm;
 use App\Filament\Resources\Teams\Schemas\TeamInfolist;
 use App\Filament\Resources\Teams\Tables\TeamsTable;
+use App\Filament\Resources\Wards\RelationManagers\PatientsRelationManager;
 use App\Models\Team;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -43,6 +44,7 @@ class TeamResource extends Resource
     public static function getRelations(): array
     {
         return [
+            PatientsRelationManager::class,
             DoctorsRelationManager::class,
         ];
     }

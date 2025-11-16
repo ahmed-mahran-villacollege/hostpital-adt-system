@@ -35,6 +35,7 @@ class PatientsTable
                         return now()->format('Y') - $state->format('Y');
                     })
                     ->sortable(),
+                TextColumn::make('admission.ward.name'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
