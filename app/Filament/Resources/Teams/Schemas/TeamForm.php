@@ -22,8 +22,12 @@ class TeamForm
                     ->unique()
                     ->required(),
                 Select::make('consultant_id')
-                    ->relationship('consultant', 'name')
-                    ->label('Consultant'),
+                    ->label('Consultant')
+                    ->relationship(
+                        name: 'consultant',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn ($query) => $query->where('rank', 'Consultant'),
+                    ),
                 Repeater::make('teamMembers')
                     ->label('Team members')
                     ->statePath('teamMembers')
