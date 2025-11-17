@@ -27,17 +27,14 @@ class WardsTable
                         };
                     })
                     ->searchable(),
-                TextColumn::make('capacity')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('occupancy')
                     ->label('Occupancy')
                     ->state(fn ($record) => sprintf(
-                        '%d / %d (Free: %d)',
+                        '%d / %d',
                         $record->occupiedBeds(),
                         $record->capacity ?? 0,
-                        $record->freeBeds(),
-                    )),
+                    ))
+                    ->alignEnd(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
