@@ -12,12 +12,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $hospitalAdmin = User::factory()->create([
             'name' => 'Hospital Administrator',
             'email' => 'admin@example.com',
         ]);
 
         $this->call([
+            RoleSeeder::class,
             WardSeeder::class,
             PatientSeeder::class,
             TeamSeeder::class,
@@ -25,5 +26,7 @@ class DatabaseSeeder extends Seeder
             AdmissionSeeder::class,
             TreatedBySeeder::class,
         ]);
+
+        $hospitalAdmin->assignRole('hospital_admin');
     }
 }
