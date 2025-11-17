@@ -11,11 +11,31 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+    /**
+     * @var array<int, string>
+     */
+    protected array $rolesToSync = [];
+
     protected function getHeaderActions(): array
     {
         return [
             ViewAction::make(),
             DeleteAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $this->rolesToSync = $data['roles'] ?? [];
+        unset($data['roles']);
+
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        if (method_exists($this->record, 'syncRoles')) {
+            $this->record->syncRoles($this->rolesToSync);
+        }
     }
 }
