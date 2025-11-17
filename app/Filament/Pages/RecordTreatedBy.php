@@ -132,10 +132,7 @@ class RecordTreatedBy extends Page
                 ->label('Create record')
                 ->icon('heroicon-o-clipboard-document-check')
                 ->color('success')
-                ->requiresConfirmation()
                 ->action(fn () => $this->recordTreatment())
-                ->modalHeading('Confirm treatment record')
-                ->modalDescription(fn (): string => $this->getConfirmationMessage())
                 ->disabled(fn (): bool => blank($this->data['admission_id'] ?? null) || blank($this->data['doctor_id'] ?? null)),
         ];
     }
@@ -290,21 +287,6 @@ class RecordTreatedBy extends Page
         return $options
             ->sort()
             ->all();
-    }
-
-    protected function getConfirmationMessage(): string
-    {
-        $admission = $this->getAdmission((int) ($this->data['admission_id'] ?? 0));
-        $doctorId = (int) ($this->data['doctor_id'] ?? 0);
-
-        if (! $admission || $doctorId <= 0) {
-            return 'Are you sure you want to record this treatment?';
-        }
-
-        $patientName = $admission->patient?->name ?? 'this patient';
-        $doctorName = $this->getDoctorName($doctorId) ?? 'the selected doctor';
-
-        return "{$doctorName} will be recorded as having treated {$patientName}. Continue?";
     }
 
     protected function getDoctorName(int $doctorId): ?string
