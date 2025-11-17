@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\LogsActivityEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TreatedBy extends Model
 {
+    use LogsActivityEvents;
+
     protected $table = 'treated_by';
 
     protected $fillable = [
