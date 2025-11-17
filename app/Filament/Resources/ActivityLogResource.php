@@ -4,13 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityLogResource\Pages;
 use BackedEnum;
-use Filament\Resources\Resource;
 use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\Models\Activity;
 use UnitEnum;
 
@@ -30,30 +32,32 @@ class ActivityLogResource extends Resource
             ->components([
                 Section::make('Details')
                     ->schema([
-                        TextEntry::make('description')
-                            ->label('Description')
-                            ->columnSpanFull(),
                         TextEntry::make('event')
-                            ->badge(),
-                        TextEntry::make('subject_type')
-                            ->label('Subject type')
-                            ->formatStateUsing(fn (?string $state): string => class_basename($state ?? '')),
-                        TextEntry::make('subject_id')
-                            ->label('Subject ID'),
+                            ->badge()
+                            ->color(fn ($state): string => self::eventColor($state)),
+                        TextEntry::make('subject')
+                            ->label('Subject')
+                            ->state(fn (Activity $record): string => self::formatSubject($record)),
                         TextEntry::make('causer.name')
                             ->label('Causer')
                             ->placeholder('System'),
                         TextEntry::make('created_at')
                             ->label('When')
                             ->dateTime(),
-                    ])->columns(2),
+                        TextEntry::make('description')
+                            ->label('Description')
+                            ->visible(fn($record) => $record->description !== $record->event)
+                            ->columnSpanFull(),
+                    ])->columns(4)->columnSpanFull(),
                 Section::make('Properties')
                     ->schema([
-                        TextEntry::make('properties')
-                            ->formatStateUsing(fn ($state): string => json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES))
-                            ->copyable()
-                            ->columnSpanFull(),
-                    ]),
+                        KeyValueEntry::make('properties.attributes')
+                            ->label('Attributes')
+                            ->placeholder('No attributes recorded.'),
+                        KeyValueEntry::make('properties.old')
+                            ->label('Old attributes')
+                            ->placeholder('No previous values recorded.'),
+                    ])->columns(2)->columnSpanFull(),
             ]);
     }
 
@@ -61,22 +65,13 @@ class ActivityLogResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('description')
-                    ->label('Description')
-                    ->wrap()
-                    ->searchable(),
+                TextColumn::make('subject')
+                    ->label('Subject')
+                    ->state(fn (Activity $record): string => self::formatSubject($record)),
                 TextColumn::make('event')
                     ->badge()
-                    ->sortable(),
-                TextColumn::make('subject_type')
-                    ->label('Subject type')
-                    ->formatStateUsing(fn (?string $state): string => class_basename($state ?? ''))
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('subject_id')
-                    ->label('Subject ID')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->color(fn ($state): string => self::eventColor($state)),
                 TextColumn::make('causer.name')
                     ->label('Causer')
                     ->placeholder('System')
@@ -103,5 +98,23 @@ class ActivityLogResource extends Resource
             'index' => Pages\ListActivityLogs::route('/'),
             'view' => Pages\ViewActivityLog::route('/{record}'),
         ];
+    }
+
+    protected static function formatSubject(Activity $activity): string
+    {
+        $type = class_basename($activity->subject_type ?? '') ?: 'Unknown';
+        $id = $activity->subject_id ?? '';
+
+        return trim("{$type} #{$id}");
+    }
+
+    protected static function eventColor(?string $event): string
+    {
+        return match (Str::lower($event ?? '')) {
+            'created' => 'success',
+            'updated' => 'warning',
+            'deleted' => 'danger',
+            default => 'gray',
+        };
     }
 }
