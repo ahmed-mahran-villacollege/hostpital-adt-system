@@ -16,6 +16,7 @@ trait LogsActivityEvents
     {
         return LogOptions::defaults()
             ->logAll()
+            ->logExcept(['password', 'remember_token'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
