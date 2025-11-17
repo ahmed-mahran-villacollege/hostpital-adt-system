@@ -31,6 +31,7 @@ class RoleSeeder extends Seeder
                 'view.patient_treatment_list',
             ],
             'system_admin' => [
+                'user.view',
                 'user.create',
                 'user.update',
                 'user.delete',

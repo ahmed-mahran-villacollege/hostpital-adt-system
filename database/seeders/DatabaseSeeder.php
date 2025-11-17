@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
+        $systemAdmin = User::factory()->create([
+            'name' => 'System Administrator',
+            'email' => 'it@example.com',
+        ]);
+
         $this->call([
             RoleSeeder::class,
             WardSeeder::class,
@@ -28,5 +33,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $hospitalAdmin->assignRole('hospital_admin');
+        $systemAdmin->assignRole('system_admin');
     }
 }
