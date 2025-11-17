@@ -15,9 +15,6 @@ class PatientsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        return $table
-            ->headerActions([
-                CreateAction::make(),
-            ]);
+        return $table;
     }
 }
