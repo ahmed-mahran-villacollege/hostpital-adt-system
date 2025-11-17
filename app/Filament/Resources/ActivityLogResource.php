@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 use UnitEnum;
 
@@ -67,11 +68,27 @@ class ActivityLogResource extends Resource
             ->columns([
                 TextColumn::make('subject')
                     ->label('Subject')
-                    ->state(fn (Activity $record): string => self::formatSubject($record)),
+                    ->state(fn (Activity $record): string => self::formatSubject($record))
+                    ->searchable(
+                        query: function (Builder $query, string $search): Builder {
+                            return $query->where(function (Builder $query) use ($search): void {
+                                $query->where('subject_type', 'like', "%{$search}%")
+                                    ->orWhere('subject_id', 'like', "%{$search}%")
+                                    ->orWhere('description', 'like', "%{$search}%")
+                                    ->orWhere('event', 'like', "%{$search}%");
+                            });
+                        },
+                    ),
                 TextColumn::make('event')
                     ->badge()
                     ->sortable()
-                    ->color(fn ($state): string => self::eventColor($state)),
+                    ->color(fn ($state): string => self::eventColor($state))
+                    ->searchable(),
+                TextColumn::make('description')
+                    ->label('Description')
+                    ->wrap()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('causer.name')
                     ->label('Causer')
                     ->placeholder('System')
