@@ -13,7 +13,12 @@ class WardPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->canAny([
+            'view.ward_patient_list',
+            'ward.create',
+            'ward.update',
+            'ward.delete',
+        ]);
     }
 
     /**
@@ -21,7 +26,7 @@ class WardPolicy
      */
     public function view(User $user, Ward $ward): bool
     {
-        return true;
+        return $this->viewAny($user);
     }
 
     /**
@@ -29,7 +34,7 @@ class WardPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->can('ward.create');
     }
 
     /**
@@ -37,7 +42,7 @@ class WardPolicy
      */
     public function update(User $user, Ward $ward): bool
     {
-        return true;
+        return $user->can('ward.update');
     }
 
     /**
@@ -45,7 +50,7 @@ class WardPolicy
      */
     public function delete(User $user, Ward $ward): bool
     {
-        return true;
+        return $user->can('ward.delete');
     }
 
     /**
@@ -53,7 +58,7 @@ class WardPolicy
      */
     public function restore(User $user, Ward $ward): bool
     {
-        return true;
+        return $user->can('ward.delete');
     }
 
     /**
@@ -61,6 +66,6 @@ class WardPolicy
      */
     public function forceDelete(User $user, Ward $ward): bool
     {
-        return true;
+        return $user->can('ward.delete');
     }
 }

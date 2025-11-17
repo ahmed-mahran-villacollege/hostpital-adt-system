@@ -12,7 +12,7 @@ class TreatedByPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view.patient_treatment_list');
     }
 
     /**
@@ -20,7 +20,7 @@ class TreatedByPolicy
      */
     public function view(User $user, TreatedBy $treatedBy): bool
     {
-        return true;
+        return $user->can('view.patient_treatment_list');
     }
 
     /**
@@ -28,7 +28,7 @@ class TreatedByPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->can('patient.record_treatment');
     }
 
     /**
@@ -36,7 +36,7 @@ class TreatedByPolicy
      */
     public function update(User $user, TreatedBy $treatedBy): bool
     {
-        return true;
+        return $user->can('patient.record_treatment');
     }
 
     /**
@@ -44,7 +44,7 @@ class TreatedByPolicy
      */
     public function delete(User $user, TreatedBy $treatedBy): bool
     {
-        return true;
+        return $user->can('patient.record_treatment');
     }
 
     /**
@@ -52,7 +52,7 @@ class TreatedByPolicy
      */
     public function restore(User $user, TreatedBy $treatedBy): bool
     {
-        return true;
+        return $user->can('patient.record_treatment');
     }
 
     /**
@@ -60,6 +60,6 @@ class TreatedByPolicy
      */
     public function forceDelete(User $user, TreatedBy $treatedBy): bool
     {
-        return true;
+        return $user->can('patient.record_treatment');
     }
 }

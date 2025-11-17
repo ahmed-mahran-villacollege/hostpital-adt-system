@@ -13,7 +13,7 @@ class TeamMemberPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -21,7 +21,7 @@ class TeamMemberPolicy
      */
     public function view(User $user, TeamMember $teamMember): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -29,7 +29,7 @@ class TeamMemberPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -37,7 +37,7 @@ class TeamMemberPolicy
      */
     public function update(User $user, TeamMember $teamMember): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -45,7 +45,7 @@ class TeamMemberPolicy
      */
     public function delete(User $user, TeamMember $teamMember): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -53,7 +53,7 @@ class TeamMemberPolicy
      */
     public function restore(User $user, TeamMember $teamMember): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 
     /**
@@ -61,6 +61,6 @@ class TeamMemberPolicy
      */
     public function forceDelete(User $user, TeamMember $teamMember): bool
     {
-        return false;
+        return $user->can('team.assign_doctor');
     }
 }

@@ -13,7 +13,15 @@ class PatientPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->canAny([
+            'view.ward_patient_list',
+            'view.team_patient_list',
+            'view.patient_treatment_list',
+            'patient.admit',
+            'patient.transfer',
+            'patient.discharge',
+            'patient.record_treatment',
+        ]);
     }
 
     /**
@@ -21,7 +29,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient): bool
     {
-        return true;
+        return $this->viewAny($user);
     }
 
     /**
@@ -29,7 +37,7 @@ class PatientPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->can('patient.admit');
     }
 
     /**
@@ -37,7 +45,11 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient): bool
     {
-        return true;
+        return $user->canAny([
+            'patient.transfer',
+            'patient.record_treatment',
+            'patient.discharge',
+        ]);
     }
 
     /**
@@ -45,7 +57,7 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 
     /**
@@ -53,7 +65,7 @@ class PatientPolicy
      */
     public function restore(User $user, Patient $patient): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 
     /**
@@ -61,6 +73,6 @@ class PatientPolicy
      */
     public function forceDelete(User $user, Patient $patient): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 }

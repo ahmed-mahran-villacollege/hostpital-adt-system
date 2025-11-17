@@ -13,7 +13,14 @@ class AdmissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->canAny([
+            'patient.admit',
+            'patient.transfer',
+            'patient.discharge',
+            'view.ward_patient_list',
+            'view.team_patient_list',
+            'view.patient_treatment_list',
+        ]);
     }
 
     /**
@@ -21,7 +28,7 @@ class AdmissionPolicy
      */
     public function view(User $user, Admission $admission): bool
     {
-        return true;
+        return $this->viewAny($user);
     }
 
     /**
@@ -29,7 +36,7 @@ class AdmissionPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->can('patient.admit');
     }
 
     /**
@@ -37,7 +44,7 @@ class AdmissionPolicy
      */
     public function update(User $user, Admission $admission): bool
     {
-        return true;
+        return $user->can('patient.transfer');
     }
 
     /**
@@ -45,7 +52,7 @@ class AdmissionPolicy
      */
     public function delete(User $user, Admission $admission): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 
     /**
@@ -53,7 +60,7 @@ class AdmissionPolicy
      */
     public function restore(User $user, Admission $admission): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 
     /**
@@ -61,6 +68,6 @@ class AdmissionPolicy
      */
     public function forceDelete(User $user, Admission $admission): bool
     {
-        return true;
+        return $user->can('patient.discharge');
     }
 }
