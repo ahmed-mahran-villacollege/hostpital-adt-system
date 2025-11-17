@@ -50,9 +50,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Care Actions')
                     ->collapsed(false),
                 NavigationGroup::make()
-                    ->label('Care Management'),
-                NavigationGroup::make()
-                    ->label('Hospital Management'),
+                    ->label('Care Lists'),
             ])
             ->navigationItems([
                 NavigationItem::make('New Admission')

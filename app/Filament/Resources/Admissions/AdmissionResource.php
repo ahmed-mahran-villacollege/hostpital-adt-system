@@ -25,6 +25,8 @@ class AdmissionResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Care Management';
 
+    protected static ?int $navigationSort = 99;
+
     public static function form(Schema $schema): Schema
     {
         return AdmissionForm::configure($schema);

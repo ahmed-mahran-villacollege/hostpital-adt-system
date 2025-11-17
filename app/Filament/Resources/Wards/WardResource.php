@@ -12,10 +12,10 @@ use App\Filament\Resources\Wards\Schemas\WardInfolist;
 use App\Filament\Resources\Wards\Tables\WardsTable;
 use App\Models\Ward;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class WardResource extends Resource
 {
@@ -25,7 +25,9 @@ class WardResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Hospital Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Care Lists';
+
+    protected static ?int $navigationSort = 30;
 
     public static function form(Schema $schema): Schema
     {

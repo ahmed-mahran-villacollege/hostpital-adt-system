@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Patients;
 
 use App\Filament\Resources\Admissions\RelationManagers\TreatedByRelationManager;
-use App\Filament\Resources\Patients\Pages\CreatePatient;
 use App\Filament\Resources\Patients\Pages\EditPatient;
 use App\Filament\Resources\Patients\Pages\ListPatients;
 use App\Filament\Resources\Patients\Pages\ViewPatient;
@@ -12,10 +11,10 @@ use App\Filament\Resources\Patients\Schemas\PatientInfolist;
 use App\Filament\Resources\Patients\Tables\PatientsTable;
 use App\Models\Patient;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PatientResource extends Resource
 {
@@ -23,7 +22,9 @@ class PatientResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'lineawesome-user-injured-solid';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Care Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Care Lists';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $recordTitleAttribute = 'title';
 

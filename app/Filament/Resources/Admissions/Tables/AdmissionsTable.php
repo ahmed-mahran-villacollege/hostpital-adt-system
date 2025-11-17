@@ -24,7 +24,7 @@ class AdmissionsTable
                 TextColumn::make('admitted_at')
                     ->dateTime()
                     ->sortable(),
-            ])
+            ])->defaultSort('admitted_at')
             ->filters([
                 //
             ])

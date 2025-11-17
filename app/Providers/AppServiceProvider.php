@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,5 +23,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+
+        Filament::registerNavigationGroups([
+            NavigationGroup::make('Care Actions'),
+            NavigationGroup::make('Care Lists'),
+            NavigationGroup::make('Care Management'),
+        ]);
     }
 }
