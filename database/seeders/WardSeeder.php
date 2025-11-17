@@ -3,15 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Ward;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class WardSeeder extends Seeder
 {
     protected $names = [
-        'General Ward A',
-        'General Ward B',
-        'Maternity Ward',
+        'General Ward',
         'Pediatric Ward',
         'Psychiatric Ward',
         'Orthopedic Ward',
@@ -22,22 +19,19 @@ class WardSeeder extends Seeder
 
     protected $types = ['Male', 'Female'];
 
-    private function type()
-    {
-        return $this->types[array_rand($this->types)];
-    }
-
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
         foreach ($this->names as $name) {
-            Ward::create([
-                'name' => $name,
-                'type' => str_contains($name, 'Maternity') || str_contains($name, 'Pediatric') ? 'Female' : $this->type(),
-                'capacity' => rand(10, 50),
-            ]);
+            foreach ($this->types as $type) {
+                Ward::create([
+                    'name' => $name . ' ' . ($type === 'Male' ? 'A' : 'B'),
+                    'type' => $type,
+                    'capacity' => rand(10, 25),
+                ]);
+            }
         }
     }
 }
