@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Teams\Schemas;
 
+use App\Filament\Resources\Teams\Pages\CreateTeam;
 use App\Models\Doctor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -32,6 +33,7 @@ class TeamForm
                     ->label('Team members')
                     ->statePath('teamMembers')
                     ->minItems(1)
+                    ->visible(fn ($livewire) => $livewire instanceof CreateTeam)
                     ->schema([
                         Select::make('doctor_id')
                             ->label('Doctor')
