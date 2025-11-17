@@ -20,7 +20,8 @@ class UserForm
                     ->required(),
                 TextInput::make('password')
                     ->password()
-                    ->required(fn ($record) => !$record),
+                    ->required(fn ($record) => ! $record)
+                    ->dehydrated(fn ($state): bool => filled($state)),
                 Select::make('roles')
                     ->label('Roles')
                     ->relationship('roles', 'name')
