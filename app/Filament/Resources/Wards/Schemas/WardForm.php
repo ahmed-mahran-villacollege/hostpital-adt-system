@@ -20,7 +20,9 @@ class WardForm
                         'Male' => 'Male',
                         'Female' => 'Female',
                     ])
-                    ->required(),
+                    ->required()
+                    ->helperText(fn ($record) => $record ? null : 'Type cannot be changed later.')
+                    ->disabled(fn (Select $component) => filled($component->getRecord())),
                 TextInput::make('capacity')
                     ->required()
                     ->numeric()
