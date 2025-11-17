@@ -12,11 +12,6 @@ trait LogsActivityEvents
 {
     use LogsActivity;
 
-    /**
-     * Log all attributes for create/update/delete/restore events.
-     */
-    protected static array $recordEvents = ['created', 'updated', 'deleted', 'restored'];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
