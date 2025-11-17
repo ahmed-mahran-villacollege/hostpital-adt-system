@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             NavigationGroup::make('Care Actions'),
             NavigationGroup::make('Care Lists'),
             NavigationGroup::make('Care Management'),
+            NavigationGroup::make('System'),
         ]);
     }
 }
