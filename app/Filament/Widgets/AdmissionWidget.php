@@ -13,6 +13,11 @@ class AdmissionWidget extends Widget
 
     protected string $view = 'filament.widgets.admission-widget';
 
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('patient.admit') ?? false;
+    }
+
     public function getAdmissionFormUrl(): string
     {
         return AdmissionResource::getUrl('create');

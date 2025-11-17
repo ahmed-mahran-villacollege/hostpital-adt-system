@@ -13,6 +13,11 @@ class TransferWidget extends Widget
 
     protected string $view = 'filament.widgets.transfer-widget';
 
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('patient.transfer') ?? false;
+    }
+
     public function getTransferFormUrl(): string
     {
         return TransferPatient::getUrl();

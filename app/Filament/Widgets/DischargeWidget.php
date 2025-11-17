@@ -13,6 +13,11 @@ class DischargeWidget extends Widget
 
     protected string $view = 'filament.widgets.discharge-widget';
 
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('patient.discharge') ?? false;
+    }
+
     public function getDischargeFormUrl(): string
     {
         return DischargePatient::getUrl();

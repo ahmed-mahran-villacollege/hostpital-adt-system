@@ -13,6 +13,11 @@ class RecordTreatedByWidget extends Widget
 
     protected string $view = 'filament.widgets.record-treated-by-widget';
 
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('patient.record_treatment') ?? false;
+    }
+
     public function getRecordTreatedByFormUrl(): string
     {
         return RecordTreatedBy::getUrl();
