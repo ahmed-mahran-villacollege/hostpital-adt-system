@@ -29,7 +29,7 @@ class EditTeam extends EditRecord
                         Notification::make()
                             ->danger()
                             ->title('Cannot delete team')
-                            ->body('This team has linked patients and cannot be deleted.')
+                            ->body('This team has assigned patients and cannot be deleted.')
                             ->send();
 
                         $action->failure();
