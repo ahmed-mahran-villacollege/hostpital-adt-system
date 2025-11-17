@@ -31,6 +31,11 @@ class RecordTreatedBy extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('patient.record_treatment') ?? false;
+    }
+
     public ?array $data = [];
 
     /**

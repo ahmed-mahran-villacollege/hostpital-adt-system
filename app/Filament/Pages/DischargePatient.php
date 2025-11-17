@@ -29,6 +29,11 @@ class DischargePatient extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-minus';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('patient.discharge') ?? false;
+    }
+
     public ?array $data = [];
 
     /**

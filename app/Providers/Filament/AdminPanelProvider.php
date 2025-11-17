@@ -6,6 +6,7 @@ use App\Filament\Pages\DischargePatient;
 use App\Filament\Pages\RecordTreatedBy;
 use App\Filament\Pages\TransferPatient;
 use App\Filament\Resources\Admissions\AdmissionResource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -58,24 +59,28 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-user-plus')
                     ->url(fn (): string => AdmissionResource::getUrl('create'))
                     ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.resources.admissions.create'))
+                    ->visible(fn (): bool => Auth::user()?->can('patient.admit') ?? false)
                     ->sort(1),
                 NavigationItem::make('Discharge Patient')
                     ->group('Care Actions')
                     ->icon('heroicon-o-user-minus')
                     ->url(fn (): string => DischargePatient::getUrl())
                     ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.discharge'))
+                    ->visible(fn (): bool => Auth::user()?->can('patient.discharge') ?? false)
                     ->sort(2),
                 NavigationItem::make('Transfer Patient')
                     ->group('Care Actions')
                     ->icon('heroicon-o-arrow-right-on-rectangle')
                     ->url(fn (): string => TransferPatient::getUrl())
                     ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.transfer'))
+                    ->visible(fn (): bool => Auth::user()?->can('patient.transfer') ?? false)
                     ->sort(3),
                 NavigationItem::make('Record Treated By')
                     ->group('Care Actions')
                     ->icon('heroicon-o-clipboard-document-check')
                     ->url(fn (): string => RecordTreatedBy::getUrl())
                     ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.treated-by'))
+                    ->visible(fn (): bool => Auth::user()?->can('patient.record_treatment') ?? false)
                     ->sort(4),
             ])
             ->middleware([

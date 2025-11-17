@@ -34,6 +34,11 @@ class TransferPatient extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-on-rectangle';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('patient.transfer') ?? false;
+    }
+
     public ?array $data = [];
 
     /**
