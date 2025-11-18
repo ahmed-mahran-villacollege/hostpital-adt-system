@@ -13,6 +13,9 @@ class PatientsRelationManager extends RelationManager
 
     protected static ?string $relatedResource = PatientResource::class;
 
+    /**
+     * Keep default patient relation table (handled by related resource).
+     */
     public function table(Table $table): Table
     {
         return $table;

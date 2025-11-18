@@ -22,8 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Disable mass assignment protection since Filament validations are used.
         Model::unguard();
 
+        // Register Filament navigation groups in a specific order.
         Filament::registerNavigationGroups([
             NavigationGroup::make('Care Actions'),
             NavigationGroup::make('Care Lists'),

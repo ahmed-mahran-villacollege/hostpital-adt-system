@@ -14,6 +14,9 @@ class EditTeam extends EditRecord
 {
     protected static string $resource = TeamResource::class;
 
+    /**
+     * Add delete action that handles foreign key failures.
+     */
     protected function getHeaderActions(): array
     {
         return [

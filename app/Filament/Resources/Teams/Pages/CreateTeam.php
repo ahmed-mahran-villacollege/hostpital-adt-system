@@ -14,6 +14,9 @@ class CreateTeam extends CreateRecord
 
     protected array $teamMembersInput = [];
 
+    /**
+     * Validate team members before create.
+     */
     protected function beforeValidate(): void
     {
         $state = $this->form->getState();
@@ -23,6 +26,9 @@ class CreateTeam extends CreateRecord
         $this->validateTeamMembers($this->teamMembersInput);
     }
 
+    /**
+     * Remove team member repeater data before saving the team.
+     */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         unset($data['teamMembers']);
@@ -30,6 +36,9 @@ class CreateTeam extends CreateRecord
         return $data;
     }
 
+    /**
+     * Save team members after creating the team record.
+     */
     protected function afterCreate(): void
     {
         $members = collect($this->teamMembersInput)

@@ -24,6 +24,9 @@ class EditAdmission extends EditRecord
         ];
     }
 
+    /**
+     * Prefill patient details from the related patient record.
+     */
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $patient = $this->record->patient;
@@ -40,6 +43,9 @@ class EditAdmission extends EditRecord
         return $data;
     }
 
+    /**
+     * Update patient data and revalidate ward selection before saving.
+     */
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $patientData = Arr::pull($data, 'patient') ?? [];

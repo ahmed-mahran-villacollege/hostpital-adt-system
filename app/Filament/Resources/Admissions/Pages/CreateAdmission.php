@@ -14,6 +14,9 @@ class CreateAdmission extends CreateRecord
 
     protected static string $resource = AdmissionResource::class;
 
+    /**
+     * Create patient record and validate ward before creating the admission.
+     */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $patientData = Arr::pull($data, 'patient');

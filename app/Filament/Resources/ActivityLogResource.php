@@ -117,6 +117,9 @@ class ActivityLogResource extends Resource
         ];
     }
 
+    /**
+     * Present subject type and id in a single label.
+     */
     protected static function formatSubject(Activity $activity): string
     {
         $type = class_basename($activity->subject_type ?? '') ?: 'Unknown';
@@ -125,6 +128,9 @@ class ActivityLogResource extends Resource
         return trim("{$type} #{$id}");
     }
 
+    /**
+     * Map activity events to badge colors.
+     */
     protected static function eventColor(?string $event): string
     {
         return match (Str::lower($event ?? '')) {
