@@ -18,6 +18,11 @@ class Patient extends Model
         'date_of_birth' => 'date',
     ];
 
+    /**
+     * Get a title for the patient, prefixed with "Patient: ".
+     *
+     * @return string
+     */
     public function getTitleAttribute()
     {
         return 'Patient: '.$this->name;

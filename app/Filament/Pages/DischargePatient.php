@@ -29,6 +29,9 @@ class DischargePatient extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-minus';
 
+    /**
+     * Only users with discharge permission can access.
+     */
     public static function canAccess(): bool
     {
         return auth()->user()?->can('patient.discharge') ?? false;
@@ -43,6 +46,9 @@ class DischargePatient extends Page
 
     protected ?array $preloadedAdmissionOptions = null;
 
+    /**
+     * Prefill the form with defaults.
+     */
     public function mount(): void
     {
         $this->form->fill();
@@ -129,6 +135,9 @@ class DischargePatient extends Page
         ];
     }
 
+    /**
+     * Execute the discharge, notifying the user and clearing cached options.
+     */
     public function discharge(): void
     {
         $this->callHook('beforeValidate');
@@ -187,6 +196,9 @@ class DischargePatient extends Page
             ->all();
     }
 
+    /**
+     * Resolve selected admission label.
+     */
     protected function getAdmissionOptionLabel(mixed $value): ?string
     {
         if (! $value) {
@@ -198,6 +210,9 @@ class DischargePatient extends Page
         );
     }
 
+    /**
+     * Format patient display text in selectors.
+     */
     protected function formatAdmissionOption(?Admission $admission): ?string
     {
         if (! $admission) {
@@ -205,7 +220,6 @@ class DischargePatient extends Page
         }
 
         $patient = $admission->patient;
-        $ward = $admission->ward;
 
         return trim(
             collect([
@@ -230,6 +244,9 @@ class DischargePatient extends Page
         );
     }
 
+    /**
+     * Show admission timestamp for the selected record.
+     */
     protected function getAdmittedAtDisplay(mixed $admissionId): string
     {
         $admission = $this->getAdmission((int) $admissionId);
@@ -241,6 +258,9 @@ class DischargePatient extends Page
         return $admission->admitted_at->format('M d, Y g:i A');
     }
 
+    /**
+     * Message used in the confirmation modal.
+     */
     protected function getConfirmationMessage(): string
     {
         $admission = $this->getAdmission((int) ($this->data['admission_id'] ?? 0));
@@ -270,6 +290,9 @@ class DischargePatient extends Page
         return $this->admissionCache[$admissionId];
     }
 
+    /**
+     * Cache and return initial admission options for preload.
+     */
     protected function getPreloadedAdmissionOptions(): array
     {
         if ($this->preloadedAdmissionOptions !== null) {

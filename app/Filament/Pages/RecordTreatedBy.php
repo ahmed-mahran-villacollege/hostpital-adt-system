@@ -31,6 +31,9 @@ class RecordTreatedBy extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
+    /**
+     * Only users with treatment recording permission can access.
+     */
     public static function canAccess(): bool
     {
         return auth()->user()?->can('patient.record_treatment') ?? false;
@@ -45,6 +48,9 @@ class RecordTreatedBy extends Page
 
     protected ?array $preloadedAdmissionOptions = null;
 
+    /**
+     * Prefill form state.
+     */
     public function mount(): void
     {
         $this->form->fill();
@@ -137,6 +143,9 @@ class RecordTreatedBy extends Page
         ];
     }
 
+    /**
+     * Validate team membership and store the treatment record.
+     */
     public function recordTreatment(): void
     {
         $this->callHook('beforeValidate');
@@ -204,6 +213,9 @@ class RecordTreatedBy extends Page
             ->all();
     }
 
+    /**
+     * Resolve selected admission label.
+     */
     protected function getAdmissionOptionLabel(mixed $value): ?string
     {
         if (! $value) {
@@ -232,6 +244,9 @@ class RecordTreatedBy extends Page
         );
     }
 
+    /**
+     * Team display text for the selected admission.
+     */
     protected function getTeamDisplay(mixed $admissionId): string
     {
         $admission = $this->getAdmission((int) $admissionId);
@@ -249,6 +264,9 @@ class RecordTreatedBy extends Page
         );
     }
 
+    /**
+     * Ward display text for the selected admission.
+     */
     protected function getWardDisplay(mixed $admissionId): string
     {
         $admission = $this->getAdmission((int) $admissionId);
@@ -264,6 +282,9 @@ class RecordTreatedBy extends Page
         );
     }
 
+    /**
+     * Doctor options filtered to the admission's team (consultant included).
+     */
     protected function getDoctorOptions(int $admissionId): array
     {
         $admission = $this->getAdmission($admissionId);
@@ -296,6 +317,9 @@ class RecordTreatedBy extends Page
             ->value('name');
     }
 
+    /**
+     * Ensure the selected doctor belongs to the admission team (including consultant).
+     */
     protected function doctorBelongsToAdmissionTeam(Admission $admission, int $doctorId): bool
     {
         if (! $admission->team) {
@@ -315,6 +339,9 @@ class RecordTreatedBy extends Page
             ->exists();
     }
 
+    /**
+     * Cached access to the admission record.
+     */
     protected function getAdmission(int $admissionId): ?Admission
     {
         if ($admissionId <= 0) {
@@ -330,6 +357,9 @@ class RecordTreatedBy extends Page
         return $this->admissionCache[$admissionId];
     }
 
+    /**
+     * Cache and return initial admission options for preload.
+     */
     protected function getPreloadedAdmissionOptions(): array
     {
         if ($this->preloadedAdmissionOptions !== null) {

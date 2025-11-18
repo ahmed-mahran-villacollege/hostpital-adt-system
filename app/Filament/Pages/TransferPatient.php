@@ -34,6 +34,9 @@ class TransferPatient extends Page
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-on-rectangle';
 
+    /**
+     * Only users with transfer permission can access.
+     */
     public static function canAccess(): bool
     {
         return auth()->user()?->can('patient.transfer') ?? false;
@@ -147,6 +150,9 @@ class TransferPatient extends Page
         ];
     }
 
+    /**
+     * Validate and complete a ward transfer, then notify the user.
+     */
     public function transfer(): void
     {
         $this->callHook('beforeValidate');
@@ -227,6 +233,9 @@ class TransferPatient extends Page
             ->all();
     }
 
+    /**
+     * Resolve selected admission label.
+     */
     protected function getAdmissionOptionLabel(mixed $value): ?string
     {
         if (! $value) {
@@ -255,6 +264,9 @@ class TransferPatient extends Page
         );
     }
 
+    /**
+     * Current ward display string for the chosen admission.
+     */
     protected function getCurrentWardDisplay(mixed $admissionId): string
     {
         $admission = $this->getAdmission((int) $admissionId);
@@ -270,6 +282,9 @@ class TransferPatient extends Page
         );
     }
 
+    /**
+     * Confirmation text summarizing the transfer.
+     */
     protected function getConfirmationMessage(): string
     {
         $admission = $this->getAdmission((int) ($this->data['admission_id'] ?? 0));
@@ -285,6 +300,9 @@ class TransferPatient extends Page
         return "{$patientName} will move from {$currentWard} to {$ward->name}. Continue?";
     }
 
+    /**
+     * Get the admission for the provided ID.
+     */
     protected function getAdmission(int $admissionId): ?Admission
     {
         if ($admissionId <= 0) {
@@ -300,6 +318,9 @@ class TransferPatient extends Page
         return $this->admissionCache[$admissionId];
     }
 
+    /**
+     * Get the ward for the provided ID.
+     */
     protected function getWard(int $wardId): ?Ward
     {
         if ($wardId <= 0) {
@@ -313,6 +334,9 @@ class TransferPatient extends Page
         return $this->wardCache[$wardId];
     }
 
+    /**
+     * Select options for destination wards.
+     */
     protected function getWardOptions(): array
     {
         if ($this->wardOptions !== null) {
@@ -325,6 +349,9 @@ class TransferPatient extends Page
             ->all();
     }
 
+    /**
+     * Preload admission options.
+     */
     protected function getPreloadedAdmissionOptions(): array
     {
         if ($this->preloadedAdmissionOptions !== null) {
