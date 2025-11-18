@@ -17,11 +17,17 @@ class TeamMember extends Model
         'doctor_id',
     ];
 
+    /**
+     * Team for this membership.
+     */
     public function team()
     {
         return $this->belongsTo(Team::class);
     }
 
+    /**
+     * Doctor assigned through this membership.
+     */
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);

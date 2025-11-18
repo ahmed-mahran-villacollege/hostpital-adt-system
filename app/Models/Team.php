@@ -16,11 +16,17 @@ class Team extends Model
         return 'Team: '.$this->name;
     }
 
+    /**
+     * Consultant responsible for the team.
+     */
     public function consultant()
     {
         return $this->belongsTo(Doctor::class);
     }
 
+    /**
+     * Doctors assigned to the team.
+     */
     public function doctors()
     {
         return $this->belongsToMany(Doctor::class, 'team_members');

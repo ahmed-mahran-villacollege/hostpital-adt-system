@@ -28,6 +28,9 @@ class TreatedBy extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+    /**
+     * Admission associated with this treatment.
+     */
     public function admission(): BelongsTo
     {
         return $this->belongsTo(Admission::class);

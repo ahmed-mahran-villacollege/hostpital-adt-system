@@ -12,6 +12,9 @@ class Doctor extends Model
     use HasFactory;
     use LogsActivityEvents;
 
+    /**
+     * Teams this doctor belongs to.
+     */
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_members');
