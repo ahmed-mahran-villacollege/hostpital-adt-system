@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Ward;
+use App\Models\TreatedBy;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
@@ -146,4 +147,65 @@ it('discharges a patient and removes the admission', function () {
 
     expect(App\Models\Patient::whereKey($patient->id)->exists())->toBeFalse();
     expect(Admission::whereKey($admission->id)->exists())->toBeFalse();
+});
+
+it('records treatment for a doctor on the admission team', function () {
+    $user = userWithPermission('patient.record_treatment');
+    $ward = ward('Male');
+    $team = team();
+    $teamDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
+    $team->doctors()->attach($teamDoctor->id);
+    $patient = Patient::factory()->create(['sex' => 'Male']);
+
+    $admission = Admission::create([
+        'patient_id' => $patient->id,
+        'ward_id' => $ward->id,
+        'team_id' => $team->id,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(\App\Filament\Pages\RecordTreatedBy::class)
+        ->set('data', [
+            'admission_id' => $admission->id,
+            'doctor_id' => $teamDoctor->id,
+        ])
+        ->call('recordTreatment')
+        ->assertHasNoErrors();
+
+    expect(
+        TreatedBy::where('admission_id', $admission->id)
+            ->where('doctor_id', $teamDoctor->id)
+            ->exists()
+    )->toBeTrue();
+});
+
+it('blocks recording treatment for a doctor outside the admission team', function () {
+    $user = userWithPermission('patient.record_treatment');
+    $ward = ward('Male');
+    $team = team();
+    $teamDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
+    $team->doctors()->attach($teamDoctor->id);
+    $otherDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
+    $patient = Patient::factory()->create(['sex' => 'Male']);
+
+    $admission = Admission::create([
+        'patient_id' => $patient->id,
+        'ward_id' => $ward->id,
+        'team_id' => $team->id,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(\App\Filament\Pages\RecordTreatedBy::class)
+        ->set('data', [
+            'admission_id' => $admission->id,
+            'doctor_id' => $otherDoctor->id,
+        ])
+        ->call('recordTreatment')
+        ->assertHasErrors();
+
+    expect(
+        TreatedBy::where('admission_id', $admission->id)
+            ->where('doctor_id', $otherDoctor->id)
+            ->exists()
+    )->toBeFalse();
 });
