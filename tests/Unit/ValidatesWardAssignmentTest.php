@@ -1,9 +1,8 @@
 <?php
 
-use App\Support\Concerns\ValidatesWardAssignment;
 use App\Models\Ward;
+use App\Support\Concerns\ValidatesWardAssignment;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(Tests\TestCase::class, RefreshDatabase::class);
@@ -24,17 +23,8 @@ beforeEach(function () {
     };
 });
 
-function wardForTest(string $type, int $capacity = 1): Ward
-{
-    return Ward::create([
-        'name' => 'Ward '.$type.' '.Str::random(4),
-        'type' => $type,
-        'capacity' => $capacity,
-    ]);
-}
-
 it('allows matching ward type and available capacity', function () {
-    $ward = wardForTest('Male', 1);
+    $ward = testWard('Male', 1);
 
     $result = $this->validator->runValidation(
         wardId: $ward->id,
@@ -45,7 +35,7 @@ it('allows matching ward type and available capacity', function () {
 });
 
 it('blocks when ward type mismatches patient sex', function () {
-    $ward = wardForTest('Female', 1);
+    $ward = testWard('Female', 1);
 
     $this->expectException(ValidationException::class);
 
@@ -56,7 +46,7 @@ it('blocks when ward type mismatches patient sex', function () {
 });
 
 it('blocks when ward has no free beds', function () {
-    $ward = wardForTest('Male', 0);
+    $ward = testWard('Male', 0);
 
     $this->expectException(ValidationException::class);
 
@@ -67,7 +57,7 @@ it('blocks when ward has no free beds', function () {
 });
 
 it('allows capacity check to be ignored when flagged', function () {
-    $ward = wardForTest('Male', 0);
+    $ward = testWard('Male', 0);
 
     $result = $this->validator->runValidation(
         wardId: $ward->id,

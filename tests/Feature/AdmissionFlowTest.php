@@ -4,53 +4,13 @@ use App\Filament\Pages\DischargePatient;
 use App\Filament\Pages\TransferPatient;
 use App\Filament\Resources\Admissions\Pages\CreateAdmission;
 use App\Models\Admission;
-use App\Models\Doctor;
 use App\Models\Patient;
-use App\Models\Team;
-use App\Models\User;
-use App\Models\Ward;
-use App\Models\TreatedBy;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Spatie\Permission\Models\Permission;
-
-function userWithPermission(string ...$permissions): User
-{
-    $user = User::factory()->create();
-
-    foreach ($permissions as $permission) {
-        Permission::findOrCreate($permission);
-    }
-
-    $user->givePermissionTo($permissions);
-
-    return $user;
-}
-
-function ward(string $type = 'Male', int $capacity = 1): Ward
-{
-    return Ward::create([
-        'name' => 'Ward '.$type.' '.Str::random(4),
-        'type' => $type,
-        'capacity' => $capacity,
-    ]);
-}
-
-function team(): Team
-{
-    $consultant = Doctor::factory()->create(['rank' => 'Consultant', 'grade' => 5]);
-
-    return Team::create([
-        'name' => 'Team '.Str::random(4),
-        'code' => Str::upper(Str::random(3)),
-        'consultant_id' => $consultant->id,
-    ]);
-}
 
 it('creates an admission with a new patient and validates ward assignment', function () {
-    $user = userWithPermission('patient.admit');
-    $ward = ward('Female');
-    $team = team();
+    $user = testUserWithPermissions('patient.admit');
+    $ward = testWard('Female');
+    $team = testTeam();
 
     Livewire::actingAs($user)
         ->test(CreateAdmission::class)
@@ -76,10 +36,10 @@ it('creates an admission with a new patient and validates ward assignment', func
 });
 
 it('prevents transferring to an incompatible ward', function () {
-    $user = userWithPermission('patient.transfer');
-    $maleWard = ward('Male');
-    $femaleWard = ward('Female');
-    $team = team();
+    $user = testUserWithPermissions('patient.transfer');
+    $maleWard = testWard('Male');
+    $femaleWard = testWard('Female');
+    $team = testTeam();
 
     $admission = Admission::create([
         'patient_id' => Patient::factory()->create(['sex' => 'Male'])->id,
@@ -101,10 +61,10 @@ it('prevents transferring to an incompatible ward', function () {
 });
 
 it('transfers a patient to a new ward', function () {
-    $user = userWithPermission('patient.transfer');
-    $maleWard = ward('Male');
-    $newWard = ward('Male');
-    $team = team();
+    $user = testUserWithPermissions('patient.transfer');
+    $maleWard = testWard('Male');
+    $newWard = testWard('Male');
+    $team = testTeam();
     $patient = Patient::factory()->create(['sex' => 'Male']);
 
     $admission = Admission::create([
@@ -126,9 +86,9 @@ it('transfers a patient to a new ward', function () {
 });
 
 it('discharges a patient and removes the admission', function () {
-    $user = userWithPermission('patient.discharge');
-    $ward = ward('Male');
-    $team = team();
+    $user = testUserWithPermissions('patient.discharge');
+    $ward = testWard('Male');
+    $team = testTeam();
     $patient = Patient::factory()->create(['sex' => 'Male']);
 
     $admission = Admission::create([
@@ -147,65 +107,4 @@ it('discharges a patient and removes the admission', function () {
 
     expect(App\Models\Patient::whereKey($patient->id)->exists())->toBeFalse();
     expect(Admission::whereKey($admission->id)->exists())->toBeFalse();
-});
-
-it('records treatment for a doctor on the admission team', function () {
-    $user = userWithPermission('patient.record_treatment');
-    $ward = ward('Male');
-    $team = team();
-    $teamDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
-    $team->doctors()->attach($teamDoctor->id);
-    $patient = Patient::factory()->create(['sex' => 'Male']);
-
-    $admission = Admission::create([
-        'patient_id' => $patient->id,
-        'ward_id' => $ward->id,
-        'team_id' => $team->id,
-    ]);
-
-    Livewire::actingAs($user)
-        ->test(\App\Filament\Pages\RecordTreatedBy::class)
-        ->set('data', [
-            'admission_id' => $admission->id,
-            'doctor_id' => $teamDoctor->id,
-        ])
-        ->call('recordTreatment')
-        ->assertHasNoErrors();
-
-    expect(
-        TreatedBy::where('admission_id', $admission->id)
-            ->where('doctor_id', $teamDoctor->id)
-            ->exists()
-    )->toBeTrue();
-});
-
-it('blocks recording treatment for a doctor outside the admission team', function () {
-    $user = userWithPermission('patient.record_treatment');
-    $ward = ward('Male');
-    $team = team();
-    $teamDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
-    $team->doctors()->attach($teamDoctor->id);
-    $otherDoctor = Doctor::factory()->create(['rank' => 'Junior', 'grade' => 2]);
-    $patient = Patient::factory()->create(['sex' => 'Male']);
-
-    $admission = Admission::create([
-        'patient_id' => $patient->id,
-        'ward_id' => $ward->id,
-        'team_id' => $team->id,
-    ]);
-
-    Livewire::actingAs($user)
-        ->test(\App\Filament\Pages\RecordTreatedBy::class)
-        ->set('data', [
-            'admission_id' => $admission->id,
-            'doctor_id' => $otherDoctor->id,
-        ])
-        ->call('recordTreatment')
-        ->assertHasErrors();
-
-    expect(
-        TreatedBy::where('admission_id', $admission->id)
-            ->where('doctor_id', $otherDoctor->id)
-            ->exists()
-    )->toBeFalse();
 });

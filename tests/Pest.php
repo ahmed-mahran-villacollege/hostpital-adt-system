@@ -41,7 +41,48 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+
+/**
+ * Create a user seeded with the given permissions.
+ */
+function testUserWithPermissions(string ...$permissions): \App\Models\User
 {
-    // ..
+    $user = \App\Models\User::factory()->create();
+
+    foreach ($permissions as $permission) {
+        \Spatie\Permission\Models\Permission::findOrCreate($permission);
+    }
+
+    $user->givePermissionTo($permissions);
+
+    return $user;
+}
+
+/**
+ * Create a ward for testing.
+ */
+function testWard(string $type = 'Male', int $capacity = 1): \App\Models\Ward
+{
+    return \App\Models\Ward::create([
+        'name' => 'Ward '.$type.' '.\Illuminate\Support\Str::random(4),
+        'type' => $type,
+        'capacity' => $capacity,
+    ]);
+}
+
+/**
+ * Create a team with an attached consultant.
+ */
+function testTeam(array $consultantAttributes = []): \App\Models\Team
+{
+    $consultant = \App\Models\Doctor::factory()->create(array_merge([
+        'rank' => 'Consultant',
+        'grade' => 5,
+    ], $consultantAttributes));
+
+    return \App\Models\Team::create([
+        'name' => 'Team '.\Illuminate\Support\Str::random(4),
+        'code' => \Illuminate\Support\Str::upper(\Illuminate\Support\Str::random(3)),
+        'consultant_id' => $consultant->id,
+    ]);
 }
