@@ -11,6 +11,11 @@ class Team extends Model
 {
     use LogsActivityEvents;
 
+    /**
+     * Returns a title for the team, prefixed with "Team: ".
+     *
+     * @return string
+     */
     public function getTitleAttribute()
     {
         return 'Team: '.$this->name;

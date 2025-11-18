@@ -12,12 +12,6 @@ class TreatedBy extends Model
 
     protected $table = 'treated_by';
 
-    protected $fillable = [
-        'admission_id',
-        'doctor_id',
-        'treated_at',
-    ];
-
     /**
      * Get the doctor who treated.
      *

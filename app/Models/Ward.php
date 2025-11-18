@@ -11,12 +11,6 @@ class Ward extends Model
 {
     use LogsActivityEvents;
 
-    protected $fillable = [
-        'name',
-        'type',
-        'capacity',
-    ];
-
     /**
      * Get all of the admissions to the ward.
      */
@@ -40,26 +34,41 @@ class Ward extends Model
         );
     }
 
+    /**
+     * Returns the number of occupied beds in the ward.
+     */
     public function occupiedBeds(): int
     {
+        // If the count is already cached, return it.
         $count = $this->getAttribute('admissions_count');
 
         if ($count !== null) {
             return (int) $count;
         }
 
+        // If the admissions relation is already loaded, use it.
         if ($this->relationLoaded('admissions')) {
             return $this->admissions->count();
         }
 
+        // If the admissions relation is not loaded, query the database for the count of occupied beds.
         return $this->admissions()->count();
     }
 
+    /**
+     * Returns the number of free beds in the ward.
+     *
+     * The capacity of the ward minus the number of occupied beds.
+     */
     public function freeBeds(): int
     {
         return max(($this->capacity ?? 0) - $this->occupiedBeds(), 0);
     }
 
+    /**
+     * Returns true if the ward has free beds.
+     * The number of free beds is greater than 0.
+     */
     public function hasFreeBeds(): bool
     {
         return $this->freeBeds() > 0;

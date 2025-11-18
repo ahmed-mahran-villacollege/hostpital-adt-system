@@ -20,6 +20,7 @@ class Admission extends Model
      */
     protected static function booted(): void
     {
+        // Ensure the patient is deleted when the admission is deleted.
         static::deleted(function (Admission $admission) {
             $admission->patient()->delete();
         });

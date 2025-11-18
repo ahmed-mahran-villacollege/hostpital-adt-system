@@ -12,11 +12,6 @@ class TeamMember extends Model
     use HasFactory;
     use LogsActivityEvents;
 
-    protected $fillable = [
-        'team_id',
-        'doctor_id',
-    ];
-
     /**
      * Team for this membership.
      */

@@ -14,8 +14,6 @@ class Patient extends Model
     use HasFactory;
     use LogsActivityEvents;
 
-    protected $fillable = [];
-
     protected $casts = [
         'date_of_birth' => 'date',
     ];
