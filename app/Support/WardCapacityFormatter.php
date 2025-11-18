@@ -6,6 +6,12 @@ use App\Models\Ward;
 
 class WardCapacityFormatter
 {
+    /**
+     * Get the ward occupancy for the provided ward ID.
+     *
+     * @param int|null $wardId
+     * @return string
+     */
     public static function forWardId(?int $wardId): string
     {
         if (! $wardId) {
@@ -23,6 +29,13 @@ class WardCapacityFormatter
         return static::forWard($ward);
     }
 
+    /**
+     * Get the ward occupancy as a string.
+     *
+     * @param Ward|null $ward
+     * @return string
+     *
+     */
     public static function forWard(?Ward $ward): string
     {
         if (! $ward) {

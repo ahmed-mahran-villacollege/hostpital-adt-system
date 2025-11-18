@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 trait ValidatesTeamComposition
 {
     /**
-     * @param  array<int, array<string, mixed>>  $teamMembers
+     * Validate the team members for the given team.
      *
      * @throws ValidationException
      */
@@ -38,6 +38,13 @@ trait ValidatesTeamComposition
         $this->notifyTeamValidationFailure('Each team must include at least one Grade 1 junior doctor.');
     }
 
+    /**
+     * Notify the user of a team validation failure, with a custom message.
+     *
+     * @param  string  $message  The message to display to the user.
+     *
+     * @throws ValidationException
+     */
     protected function notifyTeamValidationFailure(string $message): never
     {
         Notification::make()

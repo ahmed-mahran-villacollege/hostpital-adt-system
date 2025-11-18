@@ -9,6 +9,8 @@ use Illuminate\Validation\ValidationException;
 trait ValidatesWardAssignment
 {
     /**
+     * Validate the ward assignment with the given parameters.
+     *
      * @throws ValidationException
      */
     protected function validateWardAssignment(
@@ -51,6 +53,11 @@ trait ValidatesWardAssignment
     }
 
     /**
+     * Throw a validation exception with a notification about a ward assignment failure.
+     *
+     * @param  string  $message  The error message to display.
+     * @param  string  $attribute  The attribute to which the error message should be associated.
+     *
      * @throws ValidationException
      */
     protected function wardValidationFailure(string $message, string $attribute): never
