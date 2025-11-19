@@ -34,7 +34,7 @@ it('allows matching ward type and available capacity', function () {
     expect($result->id)->toBe($ward->id);
 });
 
-it('blocks when ward type mismatches patient sex', function () {
+it('blocks when ward type mismatches patient', function () {
     $ward = testWard('Female', 1);
 
     $this->expectException(ValidationException::class);

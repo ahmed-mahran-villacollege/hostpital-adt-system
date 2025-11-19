@@ -7,7 +7,7 @@ use App\Models\Patient;
 use App\Models\TreatedBy;
 use Livewire\Livewire;
 
-it('records treatment for a doctor on the admission team', function () {
+it('records treatment by a doctor on the admission team', function () {
     $user = testUserWithPermissions('patient.record_treatment');
     $ward = testWard('Male');
     $team = testTeam();
@@ -37,7 +37,7 @@ it('records treatment for a doctor on the admission team', function () {
     )->toBeTrue();
 });
 
-it('blocks recording treatment for a doctor outside the admission team', function () {
+it('blocks recording treatment by a doctor outside the admission team', function () {
     $user = testUserWithPermissions('patient.record_treatment');
     $ward = testWard('Male');
     $team = testTeam();
