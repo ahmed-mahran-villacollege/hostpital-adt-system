@@ -108,3 +108,25 @@ it('discharges a patient and removes the admission', function () {
     expect(App\Models\Patient::whereKey($patient->id)->exists())->toBeFalse();
     expect(Admission::whereKey($admission->id)->exists())->toBeFalse();
 });
+
+it('removes all patient data after discharge', function () {
+    $user = testUserWithPermissions('patient.discharge');
+    $ward = testWard('Male');
+    $team = testTeam();
+    $patient = Patient::factory()->create(['sex' => 'Male']);
+
+    $admission = Admission::create([
+        'patient_id' => $patient->id,
+        'ward_id' => $ward->id,
+        'team_id' => $team->id,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(App\Filament\Pages\DischargePatient::class)
+        ->set('data', ['admission_id' => $admission->id])
+        ->call('discharge')
+        ->assertHasNoErrors();
+
+    expect(Patient::whereKey($patient->id)->exists())->toBeFalse();
+    expect(Admission::whereKey($admission->id)->exists())->toBeFalse();
+});
