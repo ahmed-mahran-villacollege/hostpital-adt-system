@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\Ward;
 use App\Support\Concerns\ValidatesWardAssignment;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
 
 uses(Tests\TestCase::class, RefreshDatabase::class);
 
@@ -13,7 +12,8 @@ trait ValidatesWardAssignmentStub
 }
 
 beforeEach(function () {
-    $this->validator = new class {
+    $this->validator = new class
+    {
         use ValidatesWardAssignmentStub;
 
         public function runValidation(...$args)
