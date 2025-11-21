@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Actions as ActionsLayout;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use UnitEnum;
@@ -68,20 +69,25 @@ class DischargePatient extends Page
                 Section::make('Discharge details')
                     ->columns(2)
                     ->schema([
-                        Select::make('admission_id')
-                            ->label('Patient')
-                            ->options(fn (): array => $this->getPreloadedAdmissionOptions())
-                            ->preload()
-                            ->placeholder('Search admitted patients...')
-                            ->searchable()
-                            ->live()
-                            ->getSearchResultsUsing(fn (string $search): array => $this->searchAdmissions($search))
-                            ->getOptionLabelUsing(fn ($value): ?string => $this->getAdmissionOptionLabel($value))
-                            ->required(),
+                        Grid::make('2')
+                            ->schema([
+                                Select::make('admission_id')
+                                    ->label('Patient')
+                                    ->options(fn (): array => $this->getPreloadedAdmissionOptions())
+                                    ->preload()
+                                    ->placeholder('Search admitted patients...')
+                                    ->searchable()
+                                    ->live()
+                                    ->getSearchResultsUsing(fn (string $search): array => $this->searchAdmissions($search))
+                                    ->getOptionLabelUsing(fn ($value): ?string => $this->getAdmissionOptionLabel($value))
+                                    ->required(),
+                            ])->columnSpanFull(),
                         Placeholder::make('current_ward')
                             ->label('Current ward:')
-                            ->content(fn (callable $get): string => $this->getCurrentWardDisplay($get('admission_id')))
-                            ->columnSpan(2),
+                            ->content(fn (callable $get): string => $this->getCurrentWardDisplay($get('admission_id'))),
+                        Placeholder::make('responsible_consultant')
+                            ->label('Responsible consultant:')
+                            ->content(fn (callable $get): string => $this->getResponsibleConsultantDisplay($get('admission_id'))),
                         Placeholder::make('admitted_at')
                             ->label('Admitted on:')
                             ->content(fn (callable $get): string => $this->getAdmittedAtDisplay($get('admission_id')))
@@ -244,6 +250,19 @@ class DischargePatient extends Page
         );
     }
 
+    protected function getResponsibleConsultantDisplay(mixed $admissionId): string
+    {
+        $admission = $this->getAdmission((int) $admissionId);
+
+        if (! $admission?->team) {
+            return 'Select a patient to view their responsible consultant.';
+        }
+
+        $consultant = $admission->team->consultant;
+
+        return $consultant?->name ?? 'No consultant assigned.';
+    }
+
     /**
      * Show admission timestamp for the selected record.
      */
@@ -283,7 +302,7 @@ class DischargePatient extends Page
 
         if (! array_key_exists($admissionId, $this->admissionCache)) {
             $this->admissionCache[$admissionId] = Admission::query()
-                ->with(['patient', 'ward'])
+                ->with(['patient', 'ward', 'team.consultant'])
                 ->find($admissionId);
         }
 
