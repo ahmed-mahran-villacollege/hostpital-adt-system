@@ -38,7 +38,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN set -eux; \
+    if [ ! -f database/database.sqlite ]; then \
+        mkdir -p database && touch database/database.sqlite; \
+    fi; \
+    chown -R www-data:www-data storage bootstrap/cache database; \
+    chmod -R ug+rwX storage bootstrap/cache database
 
 EXPOSE 80
 CMD ["apache2-foreground"]
