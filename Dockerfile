@@ -24,8 +24,6 @@ WORKDIR /var/www/html
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV APP_URL=https://localhost
-ENV ASSET_URL=https://localhost
 
 RUN apt-get update && \
     apt-get install -y git unzip libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev libonig-dev libxml2-dev libicu-dev && \
