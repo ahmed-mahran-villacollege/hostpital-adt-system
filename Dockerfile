@@ -30,6 +30,8 @@ RUN apt-get update && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install pdo_mysql bcmath gd zip intl && \
     a2enmod rewrite && \
+    echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && \
+    a2enconf servername && \
     sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/default-ssl.conf && \
     rm -rf /var/lib/apt/lists/*
 
