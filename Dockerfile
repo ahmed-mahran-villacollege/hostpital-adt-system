@@ -16,7 +16,7 @@ RUN set -eux; \
         rm -rf /var/lib/apt/lists/*; \
     fi
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 ## Application runtime
 FROM php:8.4-apache AS runtime
@@ -47,5 +47,9 @@ RUN set -eux; \
     chown -R www-data:www-data storage bootstrap/cache database; \
     chmod -R ug+rwX storage bootstrap/cache database
 
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 80
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["apache2-foreground"]
