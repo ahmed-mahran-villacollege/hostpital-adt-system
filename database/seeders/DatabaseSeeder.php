@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         $systemAdmin = User::factory()->create([
             'name' => 'System Administrator',
-            'email' => 'it@example.com',
+            'email' => 'system@example.com',
         ]);
 
         $this->call([

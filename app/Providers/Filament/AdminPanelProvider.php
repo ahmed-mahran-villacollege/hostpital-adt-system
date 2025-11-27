@@ -48,6 +48,10 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
             ])
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+                fn () => view('filament.auth.login-info'),
+            )
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Care Actions')
