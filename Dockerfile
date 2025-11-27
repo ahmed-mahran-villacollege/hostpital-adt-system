@@ -18,6 +18,15 @@ RUN set -eux; \
 COPY composer.json composer.lock ./
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
+## Frontend assets
+FROM node:24 AS assets
+WORKDIR /app
+COPY package.json ./
+RUN npm install
+COPY resources ./resources
+COPY vite.config.js ./vite.config.js
+RUN npm run build
+
 ## Application runtime
 FROM php:8.4-apache AS runtime
 WORKDIR /var/www/html
@@ -39,6 +48,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
+COPY --from=assets /app/public/build ./public/build
 
 RUN set -eux; \
     if [ ! -f database/database.sqlite ]; then \
