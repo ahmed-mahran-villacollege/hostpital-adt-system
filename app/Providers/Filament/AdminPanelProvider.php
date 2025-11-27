@@ -6,6 +6,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
