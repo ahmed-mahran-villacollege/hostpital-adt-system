@@ -23,6 +23,6 @@ if [[ -z "${APP_KEY:-}" ]]; then
 fi
 
 # Run migrations and seeders
-php artisan migrate --force --seed --no-interaction
+php artisan migrate:fresh --force --seed --no-interaction
 
 exec "$@"
